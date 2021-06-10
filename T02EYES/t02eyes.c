@@ -85,7 +85,8 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
   PAINTSTRUCT ps;
   HDC hDC;
   POINT pt;
-
+  HPEN hPen;
+  static HDC hDCFrame;
   static INT w, h;
   static HDC hMemDC;
   static HBITMAP hBm;
@@ -119,12 +120,12 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg,
     hDC = GetDC(hWnd);
     GetCursorPos(&pt);
     ScreenToClient(hWnd, &pt);
-    hPen = CreatePen(hDCFrame, 0, 0, w, h);
+    hPen = CreatePen(PS_SOLID, 3, RGB(255, 0, 0));
     DrawEyes(hDC, w/2, h/2, 200, 80, pt.x, pt.y);
-    Rectangle(hDFrame,0,0,w,h);
-    SelectObject(hDCFrame, GetStockobject(DC_PEN));
+    Rectangle(hDCFrame, 0, 0, w, h);
+    SelectObject(hDCFrame, GetStockObject(DC_PEN));
     DeleteObject(hPen);
-    InvalidRect(hWnd, NULL, 0);
+    InvalidateRect(hWnd, NULL, 0);
     return 0;
 
   /* PAINT */
