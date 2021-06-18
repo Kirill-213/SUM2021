@@ -54,7 +54,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
 
   hWnd =
   CreateWindow(KV6_WND_CLASS_NAME,
-  "ANIMATION",
+  "KV6_HUSTLE_MODE",
   WS_OVERLAPPEDWINDOW,
   CW_USEDEFAULT, CW_USEDEFAULT,
   CW_USEDEFAULT, CW_USEDEFAULT,
@@ -85,23 +85,25 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
  * RETURNS:
  *   (LRESULT) message depende return value.
  */
-
 LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {
   HDC hDC;
   PAINTSTRUCT ps;
+  DBL t = clock() / 1000.0;
+  static kv6PRIM PrF;
 
   switch (Msg)
   {
   /* create */
   case WM_CREATE:
-    KV6_RndInit(hWnd);
     SetTimer(hWnd, 47, 1, NULL);
+    KV6_RndInit(hWnd);
+    KV6_RndPrimLoad(&PrF, "Harley.obj");
     return 0;
 
   /* size */
   case WM_SIZE:
-    KV6_RndReSize(LOWORD(lParam),
+    KV6_RndResize(LOWORD(lParam),
                   HIWORD(lParam));
     SendMessage(hWnd, WM_TIMER, 47, 0);
     return 0;
@@ -109,6 +111,10 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
   /* timer */
   case WM_TIMER:
     KV6_RndStart();
+
+    KV6_RndCamSet(VecSet(100 * sint(t), 120, 100 * cos(t)), VecSet(0, 55, 0), VecSet(0, 1, 0));
+    KV6_RndPrimDraw(&PrF, MatrMulMatrMatrRotateY(-90), MatrScale(VecSet1(0.5)));
+    
     KV6_RndEnd();
     InvalidateRect(hWnd, NULL, FALSE);
     return 0;
@@ -122,6 +128,7 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
 
   /* destroy */
   case WM_DESTROY:
+    KV6_RndPrimFree(&PrF);
     KV6_RndClose();
     KillTimer(hWnd, 30);
     PostMessage(hWnd, WM_QUIT, 0, 0);
@@ -135,5 +142,3 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
 } /* End of 'KV6_WinFunc' function */
 
 /* END OF 'pattern.c' FILE */
-
-             

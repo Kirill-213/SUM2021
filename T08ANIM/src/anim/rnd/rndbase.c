@@ -17,7 +17,7 @@ VOID KV6_RndInit( HWND hWnd )
 
   hDC = GetDC(hWnd);
   KV6_hRndDCFrame = CreateCompatibleDC(hDC);
-  Release(hWnd, hDC);
+  ReleaseDC(hWnd, hDC);
 
   /* Render perametrs */
   KV6_RndProjSize = 0.1;
@@ -68,21 +68,6 @@ VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
   KV6_RndMatrVP = MatrMulMatr(KV6_RndMatrView, KV6_RndMatrProj);
 }/* End of 'KV6_RndCamSet' function */
 
-#if 0
-/* KV6_RndPrimDraw */
-VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World )
-{
-  MATR wvp = MatrMulMatr(World, KV6_RndMatrVP);
-
-  . . .
-    VEC p = VecMulMatr(Prim->V[i], wvp);
-
-    pts[i].x = (INT)((P.X + 1) * KV6_RndFrameW / 2);
-    pts[i].y = (INT)((-P.Y + 1) * KV6_RndFrameH / 2);
-  . . .
-}/* End of 'KV6_RndPrimDraw' function */
-#endif
-
 /* KV6_RndStart */
 VOID KV6_RndStart( VOID )
 {
@@ -99,24 +84,25 @@ VOID KV6_RndStart( VOID )
 VOID KV6_RndEnd( VOID )
 {
 
-}/* KV6_RndEnd */
+}/* End of 'KV6_RndEnd' function */
 
-VOID KV6_RndKV6_( INT W, INT H )
+/* KV6_RndResize */
+VOID KV6_RndResize( INT W, INT H )
 {
   HDC hDC = GetDC(KV6_hRndWnd);
 
-  if (KV6_hRndBmFrame)
+  if (KV6_hRndBmFrame != NULL)
     DeleteObject(KV6_hRndBmFrame);
+
   KV6_hRndBmFrame = CreateCompatibleBitmap(hDC, W, H);
-  ReleaseDC(KV6_hRndWnd, hDC);		
+  ReleaseDC(KV6_hRndWnd, hDC);
   SelectObject(KV6_hRndDCFrame, KV6_hRndBmFrame);
 
   KV6_RndFrameW = W;
   KV6_RndFrameH = H;
 
   KV6_RndProjSet();
-}/* End of 'KV6_RndKV6_' function */
-
+}/* End of 'KV6_RndResize' function */
 
 
 /* END OF 'rndbase.c' FILE */

@@ -24,12 +24,40 @@ extern MATR
   KV6_RndMatrProj, /* Projection coordinate system matrix */
   KV6_RndMatrVP;   /* Stored (View * Proj) matrix */
 
+/* vertex representation type */
+typedef struct tagkv6VERTEX
+{
+  VEC P;
+} kv6VERTEX;
+
+/* primitive representation type */
+typedef struct tagkv6PRIM
+{
+  kv6VERTEX *V;
+  INT NumOfV;
+
+  INT *I;
+  INT NumOfI;
+
+  MATR Trans;
+} kv6PRIM;
+
+/* Render base functions */
 VOID KV6_RndInit( HWND hWnd );
 VOID KV6_RndClose( VOID );
 VOID KV6_RndCopyFrame( HDC hDC );
 VOID KV6_RndProjSet( VOID );
 VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up );
-//VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World );
+
+/* Render primitive functions */
+VOID KV6_RndPrimFree( kv6PRIM *Pr );
+VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World );
+BOOL KV6_RndPrimCreate( kv6PRIM *Pr, INT NoofV, INT NoofI );
+
+/* Load Primitive from ile */
+BOOL KV6_RndPrimLoad( kv6PRIM *Pr, CHAR *FileName );
+
+/* Render start / end */
 VOID KV6_RndStart( VOID );
 VOID KV6_RndEnd( VOID );
 
