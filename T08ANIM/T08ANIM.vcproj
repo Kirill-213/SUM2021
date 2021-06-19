@@ -193,6 +193,18 @@
 			<Filter
 				Name="Animation System"
 				>
+				<File
+					RelativePath=".\src\anim\anim.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\anim\anim.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\anim\unit.c"
+					>
+				</File>
 				<Filter
 					Name="Rendering System"
 					>
@@ -219,6 +231,18 @@
 				>
 				<File
 					RelativePath=".\src\win\main.c"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Units"
+				>
+				<File
+					RelativePath=".\src\units\u_cow.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\units\units.h"
 					>
 				</File>
 			</Filter>

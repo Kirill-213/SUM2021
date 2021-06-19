@@ -1,7 +1,7 @@
-/* FILE NAME  : def.h
- * PROGRAMMER : KV6
+/* FILE NAME: def.h
+ * PROGRAMMER: KV6
  * LAST UPDATE: 17.06.2021
- * PURPOSE    : 3D animation common declaration module.
+ * PURPOSE: 3D animation common declaration module.
  */
 
 #ifndef __def_h_

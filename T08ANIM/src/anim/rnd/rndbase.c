@@ -71,7 +71,7 @@ VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
 /* KV6_RndStart */
 VOID KV6_RndStart( VOID )
 {
-  SelectObject(KV6_hRndDCFrame, GetStockObject(GRAY_BRUSH));
+  SelectObject(KV6_hRndDCFrame, GetStockObject(WHITE_BRUSH));
   SelectObject(KV6_hRndDCFrame, GetStockObject(NULL_PEN));
   Rectangle(KV6_hRndDCFrame, 0, 0, KV6_RndFrameW + 1, KV6_RndFrameH + 1);
 

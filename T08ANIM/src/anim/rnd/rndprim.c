@@ -2,7 +2,7 @@
  * PROGRAMMER: KV6
  * DATE: 18.06.2021
  * PURPOSE: 3D animation primitive handle module.
-*/
+ */
 
 #include <stdio.h>
 #include "rnd.h"
