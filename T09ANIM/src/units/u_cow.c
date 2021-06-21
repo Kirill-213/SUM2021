@@ -25,7 +25,7 @@ typedef struct
   */
 static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  KV6_RndPrimLoad(&Uni->Cow, "cow.obj");
+  KV6_RndPrimLoad(&Uni->Cow, "BIN/MODELS/cow.obj");
 }/* End of 'KV6_UnitInit' function */
 
 
@@ -52,7 +52,9 @@ static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
   */
 static VOID KV6_UnitRender( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  KV6_RndPrimDraw(&Uni->Cow, MatrRotateY(sin(Ani->Time)));
+  INT i, s = 5;
+  for (i = -s; i < s; i+=5)
+    KV6_RndPrimDraw(&Uni->Cow, MatrMulMatr(MatrRotateX(180 * sin(Ani->Time) + i * 35), MatrIdentity()));
 }/* End of 'KV6_UnitRender' function */
 
 

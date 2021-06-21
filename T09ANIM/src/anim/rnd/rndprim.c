@@ -3,8 +3,9 @@
  * DATE: 21.06.2021
  * PURPOSE: 3D animation primitive handle module.
  */
-
+#include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 #include "rnd.h"
 
 /* KV6_RndPrimCreate */
@@ -37,30 +38,23 @@ VOID KV6_RndPrimFree( kv6PRIM *Pr )
 VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World )
 {
   MATR wvp = MatrMulMatr3(Pr->Trans, World, KV6_RndMatrVP);
-  POINT *pnts;
   INT i;
 
-  if ((pnts = malloc(sizeof(POINT) * Pr->NumOfV)) == NULL)
-    return;
+  /* Send matrix to OpenGL /v.1.0 */
+  glLoadMatrixf(wvp.A[0]);
+  /*
+  glLoadIdentity();
+  glScaled(0.1, 0.1, 0.1);
+  */
 
-  /* build projection */
-  for (i = 0; i < Pr->NumOfV; i++)
-  {
-    VEC p = VecMulMatr(Pr->V[i].P, wvp);
+  /* Draw triangles */
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glBegin(GL_TRIANGLES);
 
-    pnts[i].x = (INT)((p.X + 1) * KV6_RndFrameW / 2);
-    pnts[i].y = (INT)((-p.Y + 1) * KV6_RndFrameH / 2);
-  }
-
-  /* draw triangles */
-  for (i = 0; i < Pr->NumOfI; i += 3)
-  {
-    MoveToEx(KV6_hRndDCFrame, pnts[Pr->I[i]].x, pnts[Pr->I[i]].y, NULL);
-    LineTo(KV6_hRndDCFrame, pnts[Pr->I[i + 1]].x, pnts[Pr->I[i + 1]].y);
-    LineTo(KV6_hRndDCFrame, pnts[Pr->I[i + 2]].x, pnts[Pr->I[i + 2]].y);
-    LineTo(KV6_hRndDCFrame, pnts[Pr->I[i]].x, pnts[Pr->I[i]].y);
-  }
-  free(pnts);
+  glColor3d(0, 1, 0);
+  for (i = 0; i < Pr->NumOfI; i++)
+    glVertex3fv(&Pr->V[Pr->I[i]].P.X);
+  glEnd();
 }/* End of  'KV6_PrimDraw' function */
 
 /* KV6_RndPrimLoad */

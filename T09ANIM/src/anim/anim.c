@@ -1,6 +1,6 @@
 /* FILE NAME: anim.c
  * PROGRAMMER: KV6
- * DATE: 21.06.2021
+ * DATE: 19.06.2021
  * PURPOSE: 3D animation primitive handle module.
  */
 
@@ -18,7 +18,6 @@ VOID KV6_AnimInit( HWND hWnd )
   /* Fill animation context */
   KV6_Anim.hWnd = hWnd;
   KV6_RndInit(hWnd);
-  KV6_Anim.hDC = KV6_hRndDCFrame;
   KV6_Anim.W = KV6_RndFrameW;
   KV6_Anim.H = KV6_RndFrameH;
 
@@ -73,6 +72,11 @@ VOID KV6_AnimRender( VOID )
   KV6_RndEnd();
 }/* End of 'KV6_AnimRender' function */
 
+/* KV6_AnimExit */
+VOID KV6_AnimExit( VOID )
+{
+  SendMessage(KV6_Anim.hWnd, WM_CLOSE, 0, 0);
+}/* End of 'KV6_AnimExit' function */
 
 /* KV6_AnimUnitAdd */
 VOID KV6_AnimAddUnit( kv6UNIT *Uni )

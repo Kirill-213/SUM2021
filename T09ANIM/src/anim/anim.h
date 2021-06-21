@@ -25,7 +25,6 @@ typedef struct tagkv6ANIM kv6ANIM;
 struct tagkv6ANIM
 {
   HWND hWnd;
-  HDC hDC;
   INT W, H;
 
   kv6UNIT *Units[KV6_MAX_UNITS];
@@ -38,6 +37,11 @@ struct tagkv6ANIM
     FPS;                         /* Frames per second value */
   BOOL
     IsPause;                     /* Pause flag */
+
+    /* Keyboard data */
+    BYTE Keys[256];
+    BYTE KeysOld[256];
+    BYTE KeysClock[256];
 };
 
 /* struct tagUNIT */
@@ -50,6 +54,9 @@ extern kv6ANIM KV6_Anim;
 
 /* AnimClose */
 VOID KV6_AnimClose( VOID );
+
+/* KV6_AnimExit */
+VOID KV6_AnimExit( VOID );
 
 /* AnimInit */
 VOID KV6_AnimInit( HWND hWnd );

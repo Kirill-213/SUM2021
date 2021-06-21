@@ -5,10 +5,11 @@
  */
 
 #include "rnd.h"
-  
-HWND KV6_hRndWnd;        /* Work window handle */
-HDC KV6_hRndDCFrame;     /* Work window memory device context  */
-HBITMAP KV6_hRndBmFrame; /* Work window background bitmap handle */
+
+/* Global rendering data */
+HWND KV6_hRndWnd;                 /* Work window handle */
+HGLRC KV6_hRndGLRC;               /* Open GL render devic context */
+HDC KV6_hRndDC;                   /* Work window memory device context  */
 INT KV6_RndFrameW, KV6_RndFrameH; /* Work window size */
 
 DBL

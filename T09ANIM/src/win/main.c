@@ -4,8 +4,6 @@
  * PURPOSE: 3D animation startup module.
  */
 
-#include "../anim/rnd/rnd.h"
-
 #include "../units/units.h"
 
 /* Window class name */
@@ -69,11 +67,19 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
   ShowWindow(hWnd, CmdShow);
   UpdateWindow(hWnd);
 
+  /* Add UNIT */
   KV6_AnimAddUnit(KV6_UnitCreateCow());
 
   /* Message loop */
-  while (GetMessage(&msg, NULL, 0, 0))
-    DispatchMessage(&msg);
+  while (TRUE)
+    if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+    {
+      if (msg.message == WM_QUIT)
+        break;
+      DispatchMessage(&msg);
+    }
+    else
+      SendMessage(hWnd, WM_TIMER, 30, 0);
 
   return 30;
 } /* End of 'WinMain' function */
@@ -93,7 +99,8 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
  */
 LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {
-  HDC hDC = GetDC(hWnd);
+  PAINTSTRUCT ps;
+  HDC hDC;
 
   switch (Msg)
   {
@@ -112,11 +119,20 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
   /* timer */
   case WM_TIMER:
     KV6_AnimRender();
+    KV6_AnimCopyFrame(NULL);
     return 0;
 
   /* paint */
   case WM_PAINT:
+    hDC = BeginPaint(hWnd, &ps);
     KV6_AnimCopyFrame(hDC);
+    EndPaint(hWnd, &ps);
+    return 0;
+  
+  /* keydown */
+  case  WM_KEYDOWN:
+    if (wParam == 27)
+      KV6_AnimExit();
     return 0;
 
   /* destroy */

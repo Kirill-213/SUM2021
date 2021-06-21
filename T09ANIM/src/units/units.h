@@ -6,47 +6,6 @@
 
 #include "../anim/anim.h"
 
-/* Unit initialization function.
- * ARGUMENTS:
- *    -self-pointer to unit object:
- *       kv6UNIT *Uni;
- *    -animation context:
- *       kv6ANIM *Ani;
- * RETURNS: None
-*/
-VOID KV6_UnitInit( kv6UNIT *Uni, kv6ANIM *Ani );
-
-/* Unit deinitialization function.
- * ARGUMENTS:
- *    -self-pointer to unit object:
- *       kv6UNIT *Uni;
- *    -animation context:
- *       kv6ANIM *Ani;
- * RETURNS: None
- */
-VOID KV6_UnitClose( kv6UNIT *Uni, kv6ANIM *Ani );
-
-
-/* Unit inter frame events handle fucntion.
- * ARGUMENTS:
- *    -self-pointer to unit object:
- *       kv6UNIT *Uni;
- *    -animation context:
- *       kv6ANIM *Ani;
- * RETURNS: None
- */
-VOID KV6_UnitResponse( kv6UNIT *Uni, kv6ANIM *Ani );
-
-/* Unit render function.
- * ARGUMENTS:
- *    -self-pointer to unit object:
- *       kv6UNIT *Uni;
- *    -animation context:
- *       kv6ANIM *Ani;
- * RETURNS: None
- */
-VOID KV6_UnitRenser( kv6UNIT *Uni, kv6ANIM *Ani );
-
 /* Unit deinitialization function.
  * ARGUMENTS:
  *    -self-pointer to unit object:

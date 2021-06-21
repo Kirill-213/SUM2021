@@ -7,11 +7,20 @@
 #ifndef __rnd_h_
 #define __rnd_h_
 
+#define GLEW_STATIC
+#include <glew.h>
+
 #include "../../def.h"
 
+#include <wglew.h>
+#include <gl/wglext.h>
+
+#pragma comment(lib, "opengl32")
+
+
 extern HWND KV6_hRndWnd;        /* Work window handle */
-extern HDC KV6_hRndDCFrame;     /* Work window memory device context  */
-extern HBITMAP KV6_hRndBmFrame; /* Work window background bitmap handle */
+extern HGLRC KV6_hRndGLRC;               /* Open GL render devic context */
+extern HDC KV6_hRndDC;     /* Work window memory device context  */
 extern INT KV6_RndFrameW, KV6_RndFrameH; /* Work window size */
 
 extern DBL

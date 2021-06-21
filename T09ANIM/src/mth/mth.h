@@ -21,23 +21,22 @@
 
 /* typedef */
 typedef double DBL;
-typedef double FLT;
+typedef FLOAT FLT;
 
 /* types for vectors */
 typedef struct tagVEC
 {
-  DBL X, Y, Z;
+  FLT X, Y, Z;
 } VEC;
 
 /* type for matrix */
 typedef struct tagMATR
 {
-  DBL A[4][4];
+  FLT A[4][4];
 } MATR;
 
-
 /* VecSet */
-__inline VEC VecSet( DBL X, DBL Y, DBL Z )
+__inline VEC VecSet( FLT X, FLT Y, FLT Z )
 {
   VEC v;
 
@@ -48,7 +47,7 @@ __inline VEC VecSet( DBL X, DBL Y, DBL Z )
 }/* End of 'VecSet' function */
 
  /* VecSet1 */
-__inline VEC VecSet1( DBL X )
+__inline VEC VecSet1( FLT X )
 {
   return VecSet(X, X, X);
 }/* End of 'VecSet1' function */
@@ -62,17 +61,17 @@ __inline VEC VecAddVec( VEC V1, VEC V2 )
 /* VecSubVec */
 __inline VEC VecSubVec( VEC V1, VEC V2 )
 {
-  return VecSet(V1.X + V2.X, V1.Y + V2.Y, V1.Z + V2.Z);
+  return VecSet(V1.X - V2.X, V1.Y - V2.Y, V1.Z - V2.Z);
 }/* End of 'VecSubVec' function */
 
 /* VecDotVec */
-__inline DBL VecDotVec( VEC V1, VEC V2 )
+__inline FLT VecDotVec( VEC V1, VEC V2 )
 {
   return V1.X * V2.X + V1.Y * V2.Y + V1.Z * V2.Z;
 }/* End of 'VecDotVec' function */
 
 /* VecMulNum */
-__inline VEC VecDivNum( VEC V1, DBL N )
+__inline VEC VecDivNum( VEC V1, FLT N )
 {
   return VecSet(V1.X / N, V1.Y / N, V1.Z / N);
 }/* End of 'VecMulNum' function */
@@ -84,9 +83,9 @@ __inline VEC VecNeg( VEC V )
 }/* End of 'VecNeg' function */
 
 /* VecLen */
-__inline DBL VecLen( VEC V )
+__inline FLT VecLen( VEC V )
 {
-  DBL len = VecDotVec(V, V);
+  FLT len = VecDotVec(V, V);
 
   if (len == 1 || len == 0)
     return len;
@@ -94,15 +93,15 @@ __inline DBL VecLen( VEC V )
 }/* End of 'VecLen' function */
 
 /* VecLen2 */
-__inline DBL VecLen2( VEC V )
+__inline FLT VecLen2( VEC V )
 {
-  return (VecDotVec(V, V) * VecDotVec(V, V));
+  return VecDotVec(V, V);
 }/* End of 'VecLen2' function */
 
 /* vecNormalize */
 __inline VEC VecNormalize( VEC V )
 {
-  DBL len = VecDotVec(V, V);
+  FLT len = VecDotVec(V, V);
 
   if (len == 1 || len == 0)
     return V;
@@ -110,7 +109,7 @@ __inline VEC VecNormalize( VEC V )
 }/* End of 'VecNormalize' function */
 
 /* VecMulNum */
-__inline VEC VecMulNum( VEC V1, DBL N )
+__inline VEC VecMulNum( VEC V1, FLT N )
 {
   return VecSet(V1.X * N, V1.Y * N, V1.Z * N);
 }/* End of 'VecMulNum' function */
@@ -118,7 +117,7 @@ __inline VEC VecMulNum( VEC V1, DBL N )
 /* VecCrossVec */
 __inline VEC VecCrossVec( VEC V1, VEC V2 )
 {
-  return VecSet(V1.Y * V2.Z - V1.Z * V2.Y, V1.Z * V1.X - V1.X * V2.Z, V1.X * V2.Y - V1.Y * V2.X);
+  return VecSet(V1.Y * V2.Z - V1.Z * V2.Y, V1.Z * V2.X - V1.X * V2.Z, V1.X * V2.Y - V1.Y * V2.X);
 }/* VecCrossVec */
 
 /* VecAddVecEq */
@@ -159,9 +158,9 @@ __inline MATR MatrTranslate( VEC T )
 }/* End of 'MatrTranslate' function */
 
 /* MatrRotate */
-__inline MATR MatrRotate( DBL AngleInDegree, VEC R )
+__inline MATR MatrRotate( FLT AngleInDegree, VEC R )
 {
-  DBL A = D2R(AngleInDegree), si = sin(A), co = cos(A);
+  FLT A = D2R(AngleInDegree), si = sin(A), co = cos(A);
   VEC V = VecNormalize(R);
   MATR M =
   {
@@ -179,9 +178,9 @@ __inline MATR MatrRotate( DBL AngleInDegree, VEC R )
 }/* End of 'MatrRotate' funtcion */
 
 /* MatrRotateZ */
-__inline MATR MatrRotateZ( DBL AngleInDegree )
+__inline MATR MatrRotateZ( FLT AngleInDegree )
 {
-  DBL A = D2R(AngleInDegree), si = sin(A), co = cos(A);
+  FLT A = D2R(AngleInDegree), si = sin(A), co = cos(A);
   MATR M =
   {
     {
@@ -195,9 +194,9 @@ __inline MATR MatrRotateZ( DBL AngleInDegree )
 }/* End of 'MatrRotateZ' funtcion */
 
 /* MatrRotateY */
-__inline MATR MatrRotateY( DBL AngleInDegree )
+__inline MATR MatrRotateY( FLT AngleInDegree )
 {
-  DBL A = D2R(AngleInDegree), si = sin(A), co = cos(A);
+  FLT A = D2R(AngleInDegree), si = sin(A), co = cos(A);
   MATR M =
   {
     {
@@ -211,9 +210,9 @@ __inline MATR MatrRotateY( DBL AngleInDegree )
 }/* End of 'MatrRotateY' funtcion */
 
 /* MatrRotateX */
-__inline MATR MatrRotateX( DBL AngleInDegree )
+__inline MATR MatrRotateX( FLT AngleInDegree )
 {
-  DBL A = D2R(AngleInDegree), si = sin(A), co = cos(A);
+  FLT A = D2R(AngleInDegree), si = sin(A), co = cos(A);
   MATR M =
   {
     {
@@ -245,7 +244,7 @@ __inline VEC VectorTransform( VEC V, MATR M )
 /* VecMulMatr */
 __inline VEC VecMulMatr( VEC V, MATR M )
 {
-  DBL w = V.X * M.A[0][3] + V.Y * M.A[1][3] + V.Z * M.A[2][3] + M.A[3][3];
+  FLT w = V.X * M.A[0][3] + V.Y * M.A[1][3] + V.Z * M.A[2][3] + M.A[3][3];
   return VecSet((V.X * M.A[0][0] + V.Y * M.A[1][0] + V.Z * M.A[2][0] + M.A[3][0]) / w,
                 (V.X * M.A[0][1] + V.Y * M.A[1][1] + V.Z * M.A[2][1] + M.A[3][1]) / w,
                 (V.X * M.A[0][2] + V.Y * M.A[1][2] + V.Z * M.A[2][2] + M.A[3][2]) / w);
@@ -298,10 +297,10 @@ __inline MATR MatrScale( VEC S )
 }/* End of 'MatrScale' function */
 
 /* MatrSet */
-__inline MATR MatrSet( DBL A00, DBL A01, DBL A02, DBL A03,
-                       DBL A10, DBL A11, DBL A12, DBL A13,
-                       DBL A20, DBL A21, DBL A22, DBL A23,
-                       DBL A30, DBL A31, DBL A32, DBL A33 )
+__inline MATR MatrSet( FLT A00, FLT A01, FLT A02, FLT A03,
+                       FLT A10, FLT A11, FLT A12, FLT A13,
+                       FLT A20, FLT A21, FLT A22, FLT A23,
+                       FLT A30, FLT A31, FLT A32, FLT A33 )
 {
   MATR r =
   {
@@ -317,15 +316,15 @@ __inline MATR MatrSet( DBL A00, DBL A01, DBL A02, DBL A03,
 }/* End of 'MatrSet' function */
 
 /* MatrFrustum */
-__inline MATR MatrFrustum( DBL Left, DBL Right,
-                           DBL Bottom, DBL Top,
-                           DBL Near, DBL Far )
+__inline MATR MatrFrustum( FLT Left, FLT Right,
+                           FLT Bottom, FLT Top,
+                           FLT Near, FLT Far )
 {
   return MatrSet(2 * Near / (Right - Left), 0, 0, 0,
-                 0, 2 * Near / (Top - Bottom), 0, 0,
-                 (Right + Left) / (Right - Left), (Top + Bottom) / (Top - Bottom),
-                 (Far + Near) / ( Far - Near ), -1,
-                 0, 0, -2 * Near * Far / (Far - Near), 0);
+                0, 2 * Near / (Top - Bottom), 0, 0,
+                (Right + Left) / (Right - Left), (Top + Bottom) / (Top - Bottom),
+                -(Far + Near) / ( Far - Near ), -1,
+                0, 0, -2 * Near * Far / (Far - Near), 0);
 }/* End of 'mth.h' function */
 
 #endif /* __mth_h_ */

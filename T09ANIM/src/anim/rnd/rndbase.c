@@ -9,37 +9,109 @@
 /* KV6_RndInit */
 VOID KV6_RndInit( HWND hWnd )
 {
-
-  HDC hDC;
+ 
+  /* OPEN GL PARAMETRS */
+  INT i, nums;
+  PIXELFORMATDESCRIPTOR pfd = {0};
+  HGLRC hRC;
+  
+  INT PixelAttribs[] =
+  {
+    WGL_DRAW_TO_WINDOW_ARB, TRUE,
+    WGL_SUPPORT_OPENGL_ARB, TRUE,
+    WGL_DOUBLE_BUFFER_ARB, TRUE,
+    WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+    WGL_ACCELERATION_ARB, WGL_FULL_ACCELERATION_ARB,
+    WGL_COLOR_BITS_ARB, 32,
+    WGL_DEPTH_BITS_ARB, 32,
+    0
+  };
+  INT ContextAttribs[] =
+  {
+    WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
+    WGL_CONTEXT_MINOR_VERSION_ARB, 6,
+    WGL_CONTEXT_PROFILE_MASK_ARB, WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
+                                  /* WGL_CONTEXT_CORE_PROFILE_BIT_ARB, */
+    0
+  };
 
   KV6_hRndWnd = hWnd;
-  KV6_hRndBmFrame = NULL;
+  KV6_hRndDC = GetDC(hWnd);
 
-  hDC = GetDC(hWnd);
-  KV6_hRndDCFrame = CreateCompatibleDC(hDC);
-  ReleaseDC(hWnd, hDC);
+  /* OpenGL init: pixel format setup */
+  pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
+  pfd.nVersion = 1;
+  pfd.dwFlags = PFD_DOUBLEBUFFER | PFD_SUPPORT_OPENGL;
+  pfd.cColorBits = 32;
+  pfd.cDepthBits = 32;
+  i = ChoosePixelFormat(KV6_hRndDC, &pfd);
+  DescribePixelFormat(KV6_hRndDC, i, sizeof(PIXELFORMATDESCRIPTOR), &pfd);
+  SetPixelFormat(KV6_hRndDC, i, &pfd);
+
+  /* OpenGL init: setup rendering context */
+  KV6_hRndGLRC = wglCreateContext(KV6_hRndDC);
+  wglMakeCurrent(KV6_hRndDC, KV6_hRndGLRC);
+
+  /* Initializing GLEW library */
+  if (glewInit() != GLEW_OK)
+  {
+    MessageBox(KV6_hRndWnd, "Error extensions initializing", "Error",
+      MB_ICONERROR | MB_OK);
+    exit(0);
+  }
+
+  if (!(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader))
+  {
+    MessageBox(KV6_hRndWnd, "Error: no shaders support", "Error", MB_ICONERROR | MB_OK);
+    exit(0);
+  }
+
+  /* Enable a new OpenGL profile support */
+  wglChoosePixelFormatARB(KV6_hRndDC, PixelAttribs, NULL, 1, &i, &nums);
+  hRC = wglCreateContextAttribsARB(KV6_hRndDC, NULL, ContextAttribs);
+
+  wglMakeCurrent(NULL, NULL);
+  wglDeleteContext(KV6_hRndGLRC);
+
+  KV6_hRndGLRC = hRC;
+  wglMakeCurrent(KV6_hRndDC, KV6_hRndGLRC);
+  /* Set default OpenGL parameters */
+  glEnable(GL_DEPTH_TEST);
+
+  /// wglSwapIntervalEXT(1); /* 0 - V-sync off, 1 - V-sync on */
+
+  KV6_hRndWnd = hWnd;
+
 
   /* Render perametrs */
   KV6_RndProjSize = 0.1;
   KV6_RndProjDist = KV6_RndProjSize;
+  
   KV6_RndProjFarClip = 300;
-  KV6_RndFrameW = 50;
-  KV6_RndFrameH = 50;
+
+  KV6_RndFrameW = 100;
+  KV6_RndFrameH = 100;
+  KV6_RndMatrView = MatrIdentity();
+  KV6_RndMatrVP = MatrIdentity();
+  KV6_RndMatrProj = MatrIdentity();
+  KV6_RndCamSet(VecSet(0, 30, 30), VecSet(0, 0, 0), VecSet(0, 1, 0));
   KV6_RndCamSet(VecSet(0, 0, 30), VecSet(0, 0, 0), VecSet(0, 1, 0));
+
 }/* End of 'KV6_RndInit' function */
+
 
 /* KV6_RndClose */
 VOID KV6_RndClose( VOID )
 {
-  DeleteDC(KV6_hRndDCFrame);
-  DeleteObject(KV6_hRndBmFrame);
+  wglMakeCurrent(NULL, NULL);
+  wglDeleteContext(KV6_hRndGLRC);
+  ReleaseDC(KV6_hRndWnd, KV6_hRndDC);
 }/* End of 'KV6_RndClose' function */
 
 /* KV6_RndCopyFrame */
 VOID KV6_RndCopyFrame( HDC hDC )
 {
-  BitBlt(hDC, 0, 0, KV6_RndFrameW, KV6_RndFrameH,
-  KV6_hRndDCFrame, 0, 0, SRCCOPY);
+  wglSwapLayerBuffers(KV6_hRndDC, WGL_SWAP_MAIN_PLANE);
 }/* End of 'KV6_RndCopyFrame' function */
 
 /* KV6_RndProjSet */
@@ -61,6 +133,7 @@ VOID KV6_RndProjSet( VOID )
   KV6_RndMatrVP = MatrMulMatr(KV6_RndMatrView, KV6_RndMatrProj);
 }/* KV6_RndProjSet */
 
+
 /* KV6_RndCamset */
 VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
 {
@@ -68,35 +141,26 @@ VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
   KV6_RndMatrVP = MatrMulMatr(KV6_RndMatrView, KV6_RndMatrProj);
 }/* End of 'KV6_RndCamSet' function */
 
+
 /* KV6_RndStart */
 VOID KV6_RndStart( VOID )
 {
-  SelectObject(KV6_hRndDCFrame, GetStockObject(WHITE_BRUSH));
-  SelectObject(KV6_hRndDCFrame, GetStockObject(NULL_PEN));
-  Rectangle(KV6_hRndDCFrame, 0, 0, KV6_RndFrameW + 1, KV6_RndFrameH + 1);
-
-  SelectObject(KV6_hRndDCFrame, GetStockObject(BLACK_PEN));
-  SelectObject(KV6_hRndDCFrame, GetStockObject(WHITE_BRUSH));
-  SetDCPenColor(KV6_hRndDCFrame, RGB(255, 255, 255));
+  /* Clear frame */
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/* End of 'KV6_RndStart' function */
+
 
 /* KV6_RndEnd */
 VOID KV6_RndEnd( VOID )
 {
-
+  glFinish();
 }/* End of 'KV6_RndEnd' function */
+
 
 /* KV6_RndResize */
 VOID KV6_RndResize( INT W, INT H )
 {
-  HDC hDC = GetDC(KV6_hRndWnd);
-
-  if (KV6_hRndBmFrame != NULL)
-    DeleteObject(KV6_hRndBmFrame);
-
-  KV6_hRndBmFrame = CreateCompatibleBitmap(hDC, W, H);
-  ReleaseDC(KV6_hRndWnd, hDC);
-  SelectObject(KV6_hRndDCFrame, KV6_hRndBmFrame);
+  glViewport(0, 0, W, H);
 
   KV6_RndFrameW = W;
   KV6_RndFrameH = H;
