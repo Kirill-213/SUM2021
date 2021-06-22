@@ -11,7 +11,9 @@
 typedef struct
 {
   UNIT_BASE_FIELDS;
-  kv6PRIM Cow;
+  kv6PRIM Pr;
+  MATR Cow;
+  VEC Dir;
   VEC Pos;
 } kv6UNIT_COW;
 
@@ -25,9 +27,11 @@ typedef struct
   */
 static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  KV6_RndPrimLoad(&Uni->Cow, "BIN/MODELS/cow.obj");
+  KV6_RndPrimLoad(&Uni->Pr, "BIN/MODELS/cow.obj");
+  Uni->Pos = VecSet1(0);
+  Uni->Dir = VecSet(5, 0, 0);
+  Uni->Cow = MatrMulMatr(MatrScale(VecSet1(0.4)), MatrTranslate(VecSet(-0.6, -0.5, 0)));
 }/* End of 'KV6_UnitInit' function */
-
 
 /* Cow unit inter frame events handle function
  * ARGUMENTS:
@@ -39,6 +43,9 @@ static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
   */
 static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
+  Uni->Cow = MatrMulMatr(Uni->Cow, MatrRotate(Ani->DeltaTime * 500 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(1, 0, 0)));
+  Uni->Dir = VectorTransform(Uni->Dir, MatrRotate(Ani->DeltaTime * 100 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(1, 0, 0)));
+  Uni->Pos = VecAddVec(Uni->Pos, VecMulNum(Uni->Dir, Ani->DeltaTime * 10 *(Ani->Keys['W'] - Ani->Keys['S'])));
 }/* End of 'KV6_UnitResponse' function */
 
 
@@ -52,11 +59,23 @@ static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
   */
 static VOID KV6_UnitRender( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  INT i, s = 5;
-  for (i = -s; i < s; i+=5)
-    KV6_RndPrimDraw(&Uni->Cow, MatrMulMatr(MatrRotateX(180 * sin(Ani->Time) + i * 35), MatrIdentity()));
+  KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr(Uni->Cow, MatrTranslate(Uni->Pos))); 
+  ///KV6_RndPrimDraw(&Uni->Pr, Uni->Cow);  MatrRotate(Ani->Time * 30, VecSet(1, 1, 0)));
 }/* End of 'KV6_UnitRender' function */
 
+
+/* Bounce ball unit render function
+ * ARGUMENTS:
+ *   - self-pointer to unit object
+ *      kv6UNIT_BALL *Uni;
+ *   - animation context:
+ *      kv6ANIM *Ani;
+ * RETURNS: None.
+ */
+static VOID KV6_UnitClose( kv6UNIT_COW * Uni, kv6ANIM *Ani )
+{
+  KV6_RndPrimFree(&Uni->Pr);
+}/* End of 'KV6_UnitClose' function */
 
 /* Unit ball creation function
  * ARGUMENTS: None.
@@ -74,7 +93,7 @@ kv6UNIT * KV6_UnitCreateCow( VOID )
   Uni->Init = (VOID *)KV6_UnitInit;
   Uni->Response = (VOID *)KV6_UnitResponse;
   Uni->Render = (VOID *)KV6_UnitRender;
+  Uni->Close = (VOID *)KV6_UnitClose;
 
   return Uni;
 }/* End of 'KV6_UnitCreateCow' function */
-

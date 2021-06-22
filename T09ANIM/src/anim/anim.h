@@ -38,10 +38,11 @@ struct tagkv6ANIM
   BOOL
     IsPause;                     /* Pause flag */
 
-    /* Keyboard data */
-    BYTE Keys[256];
-    BYTE KeysOld[256];
-    BYTE KeysClock[256];
+  /* Keyboard data */
+  BYTE 
+    Keys[256],
+    KeysOld[256],
+    KeysClick[256];
 };
 
 /* struct tagUNIT */
@@ -54,31 +55,28 @@ extern kv6ANIM KV6_Anim;
 
 /* AnimClose */
 VOID KV6_AnimClose( VOID );
-
 /* KV6_AnimExit */
 VOID KV6_AnimExit( VOID );
-
 /* AnimInit */
 VOID KV6_AnimInit( HWND hWnd );
-
 /* AnimRender */
 VOID KV6_AnimRender( VOID );
-
 /* AnimunitAdd */
 VOID KV6_AnimAddUnit( kv6UNIT *Uni );
-
 /* AnimCopyFrame */
 VOID KV6_AnimCopyFrame( HDC hDC );
-
 /* AnimResize */
 VOID KV6_AnimResize( INT W, INT H );
-
 /* FlipFullScreen */
 VOID KV6_AnimFlipFullScreen( VOID );
-
 /* AnimUnitCreate */
 kv6UNIT * KV6_AnimUnitCreate( INT Size );
 
+
+/* KV6_AnimInputResponse */
+VOID KV6_AnimInputResponse( VOID );
+/* KV6_AnimInputInit */
+VOID KV6_AnimInputInit( VOID );
 
 
 /* TimerInit */

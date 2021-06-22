@@ -6,30 +6,20 @@
 
 #include "../anim/anim.h"
 
-/* Unit deinitialization function.
- * ARGUMENTS:
- *    -self-pointer to unit object:
- *       kv6UNIT *Uni;
- *    -animation context:
- *       kv6ANIM *Ani;
- * RETURNS: None
- */
+/* UNITS */
+/* KV6_Unit */
 VOID KV6_Unit( kv6UNIT *Uni, kv6ANIM *Ani );
 
-/* Unit creation function
- * ARGUMENTS:
- *    -unit structure size in bytes
- *       INT Size;
- * RETURNS:
- *   (kv6UNIT *) pointer to created unit
- */
+/* KV6_AnimUnitCreate */
 kv6UNIT * KV6_AnimUnitCreate( INT Size );
 
-/* Unit ball creation function
- * ARGUMENTS: None.
- * RETURNS:
- *   (kv6UNIT *) pointer to created unit
-  */
+/* KV6_UnitCreateCow */
 kv6UNIT * KV6_UnitCreateCow( VOID );
+
+
+/* UNIT CONTROL */
+/* KV6_UnitCreateCtrl */
+kv6UNIT * KV6_UnitCreateCtrl( VOID );
+
 
 /* END OF 'units.c' FILE */

@@ -73,6 +73,10 @@ VOID KV6_RndEnd( VOID );
 /* KV6_RndResize */
 VOID KV6_RndResize( INT W, INT H );
 
+/* KV6_RndPrimCreatePlane */
+VOID KV6_RndPrimCreatePlane( kv6VERTEX *Pr, VEC P, VEC Du, VEC Dv, INT SplitW, INT SplitH );
+
+
 #endif /* __rnd_h_ */
 
 /* END OF 'rnd.h' FILE */

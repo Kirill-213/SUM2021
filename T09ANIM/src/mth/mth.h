@@ -20,7 +20,7 @@
 
 
 /* typedef */
-typedef double DBL;
+typedef DOUBLE DBL;
 typedef FLOAT FLT;
 
 /* types for vectors */

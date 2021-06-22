@@ -12,7 +12,6 @@ kv6ANIM KV6_Anim;
 /* KV6_AnimInit */
 VOID KV6_AnimInit( HWND hWnd )
 {
-
   memset(&KV6_Anim, 0, sizeof(kv6ANIM));
 
   /* Fill animation context */
@@ -23,6 +22,9 @@ VOID KV6_AnimInit( HWND hWnd )
 
   /* Timer initialization */
   KV6_TimerInit();
+
+  /* KV6_AnimInputInit */
+  KV6_AnimInputInit();
 
 }/* End of 'KV6_AnimInit' function */
 
@@ -62,6 +64,9 @@ VOID KV6_AnimRender( VOID )
 
   /* Timer response */
   KV6_TimerResponse();
+
+  /* KV6_AnimInputResponse */
+  KV6_AnimInputResponse();
 
   for (i = 0; i < KV6_Anim.NumOfUnits; i++)
     KV6_Anim.Units[i]->Response(KV6_Anim.Units[i], &KV6_Anim);
