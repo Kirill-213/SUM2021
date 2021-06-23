@@ -236,6 +236,14 @@
 						RelativePath=".\src\anim\rnd\rndprim.c"
 						>
 					</File>
+					<Filter
+						Name="Resourses"
+						>
+						<File
+							RelativePath=".\rndshd.c"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 			<Filter
@@ -255,10 +263,6 @@
 				</File>
 				<File
 					RelativePath=".\src\units\u_ctrl.c"
-					>
-				</File>
-				<File
-					RelativePath=".\src\units\u_plane.c"
 					>
 				</File>
 				<File

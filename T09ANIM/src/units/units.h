@@ -16,10 +16,12 @@ kv6UNIT * KV6_AnimUnitCreate( INT Size );
 /* KV6_UnitCreateCow */
 kv6UNIT * KV6_UnitCreateCow( VOID );
 
-
-/* UNIT CONTROL */
 /* KV6_UnitCreateCtrl */
 kv6UNIT * KV6_UnitCreateCtrl( VOID );
+
+/* UnitCreatePlate */
+kv6UNIT * KV6_UnitCreatePlane( VOID );
+
 
 
 /* END OF 'units.c' FILE */

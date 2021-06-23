@@ -36,19 +36,26 @@ extern MATR
 /* vertex representation type */
 typedef struct tagkv6VERTEX
 {
-  VEC P;
+  VEC P;   /* position */
+  VEC2 T;  /* texture cord */
+  VEC N;   /* normal */
+  VEC4 C;  /* color(r, g, b, a) */
+
 } kv6VERTEX;
+
 
 /* primitive representation type */
 typedef struct tagkv6PRIM
 {
   kv6VERTEX *V;
-  INT NumOfV;
 
-  INT *I;
-  INT NumOfI;
+  INT VA;
+  INT VBuf;
+  INT IBuf;
 
-  MATR Trans;
+  INT NumOfElements;
+
+  MATR Trans; /* Additional transformation matrix */
 } kv6PRIM;
 
 /* Render base functions */
@@ -61,7 +68,8 @@ VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up );
 /* Render primitive functions */
 VOID KV6_RndPrimFree( kv6PRIM *Pr );
 VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World );
-BOOL KV6_RndPrimCreate( kv6PRIM *Pr, INT NoofV, INT NoofI );
+//BOOL KV6_RndPrimCreate( kv6PRIM *Pr, INT NoofV, INT NoofI );
+VOID KV6_RndPrimCreate( kv6PRIM *Pr, kv6VERTEX *V, INT NumOfV, INT *I, INT NumOfI );
 
 /* Load Primitive from ile */
 BOOL KV6_RndPrimLoad( kv6PRIM *Pr, CHAR *FileName );
@@ -73,6 +81,9 @@ VOID KV6_RndEnd( VOID );
 /* KV6_RndResize */
 VOID KV6_RndResize( INT W, INT H );
 
+
+/* KV6_RndPrimCreateGrid */
+VOID KV6_RndPrimCreateGrid( kv6PRIM *Pr, INT Grid_W, INT Grid_H, kv6VERTEX *V );
 /* KV6_RndPrimCreatePlane */
 VOID KV6_RndPrimCreatePlane( kv6VERTEX *Pr, VEC P, VEC Du, VEC Dv, INT SplitW, INT SplitH );
 

@@ -2,7 +2,7 @@
  * PROGRAMMER: KV6
  * DATE: 21.06.2021
  * PURPOSE: Globe.h
-*/
+ */
 #ifndef __mth_h_
 #define __mth_h_
 
@@ -12,6 +12,8 @@
 #define PI 3.14159265358979323846
 #define D2R(A) ((A) * (PI / 180.0))
 #define Degree2Radian(a) D2R(a)
+
+#define VecAddVec3(A, B, C) VecAddVec(VecAddVec(A, B), C)
 
 #define MatrMulMatr3(A, B, C) MatrMulMatr(MatrMulMatr(A, B), C)
 #define MatrMulMatr4(A, B, C, D) MatrMulMatr(MatrMulMatr(MatrMulMatr(A, B), C)), D)
@@ -23,11 +25,24 @@
 typedef DOUBLE DBL;
 typedef FLOAT FLT;
 
-/* types for vectors */
+/* VEC */
 typedef struct tagVEC
 {
   FLT X, Y, Z;
 } VEC;
+
+/* VEC2 */
+typedef struct tagVEC2
+{
+  FLT X, Y;
+} VEC2;
+
+/* VEC4 */
+typedef struct tagVEC4
+{
+  FLT X, Y, Z, W;
+} VEC4;
+
 
 /* type for matrix */
 typedef struct tagMATR

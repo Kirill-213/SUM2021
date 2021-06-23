@@ -22,10 +22,10 @@ static VOID KV6_UnitInit( kv6UNIT_PLANE *Uni, kv6ANIM *Ani )
 }/* End of 'KV6_UnitInit' function */
 
 /* KV6_UnitResponse */
-static VOID KV6_UnitResponse( kv6UNIT_PLANE *Uni, kv6ANIM *Ani )
-{
+///static VOID KV6_UnitResponse( kv6UNIT_PLANE *Uni, kv6ANIM *Ani )
+///{
 
-}/* KV6_UnitResponse */
+///}/* KV6_UnitResponse */
 
 /* KV6_UnitClose */
 static VOID KV6_UnitClose( kv6UNIT_PLANE * Uni, kv6ANIM *Ani )
@@ -33,7 +33,11 @@ static VOID KV6_UnitClose( kv6UNIT_PLANE * Uni, kv6ANIM *Ani )
   KV6_RndPrimFree(&Uni->Plane);
 }/* End of function */
 
-static VOID KV6_UnitRender( VOID )
+/* KV6_UnitRender */
+static VOID KV6_UnitRender( kv6UNIT_PLANE * Uni, kv6ANIM *Ani )
+{
+  KV6_RndPrimDraw(&Uni->Plane, MatrIdentity());
+}/* End of 'KV6_UnitRender' function */
 
 /* KV6_UnitCreatePlate */
 kv6UNIT * KV6_UnitCreatePlane( VOID )
@@ -45,7 +49,7 @@ kv6UNIT * KV6_UnitCreatePlane( VOID )
   
   /* Setup unit methods */
   Uni->Init = (VOID *)KV6_UnitInit;
-  Uni->Response = (VOID *)KV6_UnitResponse;
+///  Uni->Response = (VOID *)KV6_UnitResponse;
   Uni->Render = (VOID *)KV6_UnitRender;
   Uni->Close = (VOID *)KV6_UnitClose;
 
