@@ -5,6 +5,7 @@
  */
 
 #include "rnd.h"
+#include "../anim.h"
 
 /* KV6_RndInit */
 VOID KV6_RndInit( HWND hWnd )
@@ -66,6 +67,7 @@ VOID KV6_RndInit( HWND hWnd )
     exit(0);
   }
 
+
   /* Enable a new OpenGL profile support */
   wglChoosePixelFormatARB(KV6_hRndDC, PixelAttribs, NULL, 1, &i, &nums);
   hRC = wglCreateContextAttribsARB(KV6_hRndDC, NULL, ContextAttribs);
@@ -78,7 +80,10 @@ VOID KV6_RndInit( HWND hWnd )
   /* Set default OpenGL parameters */
   glEnable(GL_DEPTH_TEST);
 
-  /// wglSwapIntervalEXT(1); /* 0 - V-sync off, 1 - V-sync on */
+  wglSwapIntervalEXT(0); /* 0 - V-sync off, 1 - V-sync on */
+
+  /* RndShadersInit */
+  KV6_RndShadersInit();
 
   KV6_hRndWnd = hWnd;
 
@@ -145,6 +150,16 @@ VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
 /* KV6_RndStart */
 VOID KV6_RndStart( VOID )
 {
+
+  static DBL load = 0;
+
+  if ((load += KV6_Anim.GlobalDeltaTime) > 1)
+  {
+    load = 0;
+    /* RndShadersUpdate */
+    KV6_RndShadersUpdate();
+  }
+
   /* Clear frame */
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/* End of 'KV6_RndStart' function */

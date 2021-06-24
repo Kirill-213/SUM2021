@@ -12,7 +12,7 @@ typedef struct tagkv6UNIT_ctrl
 {
   UNIT_BASE_FIELDS;
   DBL Speed;
-  VEC CamLoc, CamDir;
+  VEC CamLoc, CamDir, CamDist;
 
 } kv6UNIT_ctrl;
 
@@ -42,10 +42,10 @@ static VOID KV6_UnitInit( kv6UNIT_ctrl *Uni, kv6ANIM *Ani )
   */
 static VOID KV6_UnitResponse( kv6UNIT_ctrl *Uni, kv6ANIM *Ani )
 {
-  Uni->CamLoc =
-  VecAddVec(Uni->CamLoc,
-    VecMulNum(Uni->CamDir, Ani->GlobalDeltaTime * Uni->Speed *
-      (Ani->Keys[VK_UP] - Ani->Keys[VK_DOWN])));
+  Uni->
+    Uni->RotY += Ani->GlobalDeltaTime * (-0.8 * 30 * Ani->Keys[VK_LBUTTON] * Ani->Mx + 3 * 0.47 * (Ani->) );
+
+    KV6_RndCamSet(PointTransform(VecSetjh));
 }/* End of 'KV6_UnitResponse' function */
 
 

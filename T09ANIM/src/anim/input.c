@@ -34,10 +34,23 @@ static VOID KV6_AnimKeyboardResponse( VOID )
   memcpy(KV6_Anim.KeysOld, KV6_Anim.Keys, 256);
 }/* End of 'UnitResponse' function */
 
+/* AnimMouseInit */
+static VOID KV6_AnimMouseInit( VOID )
+{
+
+}/* End of 'AnimMouseInit' function */
+
+/* AnimMouseResponse */
+static VOID KV6_AnimMouseResponse( VOID )
+{
+
+}/* End of 'AnimMouseResponse' function */
+
 
 /* KV6_AnimInputInit */
 VOID KV6_AnimInputInit( VOID )
 {
+  KV6_AnimMouseInit();
   KV6_AnimKeyboardInit();
 }/* KV6_AnimInputInit */
 
@@ -46,6 +59,7 @@ VOID KV6_AnimInputInit( VOID )
 VOID KV6_AnimInputResponse( VOID )
 {
   KV6_AnimKeyboardResponse();
+  KV6_AnimMouseResponse();
 }/* KV6_AnimInputResponse */
 
 

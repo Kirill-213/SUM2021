@@ -9,6 +9,7 @@
 
 #include "rnd/rnd.h"
 
+
 #define KV6_MAX_UNITS 3000
 
 /* typedef */
@@ -37,6 +38,10 @@ struct tagkv6ANIM
     FPS;                         /* Frames per second value */
   BOOL
     IsPause;                     /* Pause flag */
+
+  /* Mouse data */
+  INT
+    Mx, My, Mz, Mdx, Mdy, Mdz;
 
   /* Keyboard data */
   BYTE 

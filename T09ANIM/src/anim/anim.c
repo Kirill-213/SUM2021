@@ -9,6 +9,7 @@
 /* Global animation data */
 kv6ANIM KV6_Anim;
 
+
 /* KV6_AnimInit */
 VOID KV6_AnimInit( HWND hWnd )
 {
@@ -27,6 +28,7 @@ VOID KV6_AnimInit( HWND hWnd )
   KV6_AnimInputInit();
 
 }/* End of 'KV6_AnimInit' function */
+
 
 /* KV6_AnimClose */
 VOID KV6_AnimClose( VOID )
@@ -51,11 +53,13 @@ VOID KV6_AnimResize( INT W, INT H )
   KV6_RndResize(W, H);
 }/* KV6_AnimResize */
 
+
 /* KV6_AnimCopyFrame */
 VOID KV6_AnimCopyFrame( HDC hDC )
 {
   KV6_RndCopyFrame(hDC);
 }/* End of 'KV6_AnimCopyFrame' function */
+
 
 /* KV6_AnimRender */
 VOID KV6_AnimRender( VOID )
@@ -77,11 +81,13 @@ VOID KV6_AnimRender( VOID )
   KV6_RndEnd();
 }/* End of 'KV6_AnimRender' function */
 
+
 /* KV6_AnimExit */
 VOID KV6_AnimExit( VOID )
 {
   SendMessage(KV6_Anim.hWnd, WM_CLOSE, 0, 0);
 }/* End of 'KV6_AnimExit' function */
+
 
 /* KV6_AnimUnitAdd */
 VOID KV6_AnimAddUnit( kv6UNIT *Uni )

@@ -9,9 +9,12 @@
 
 #include "../rnd.h"
 
-/***
- * Base shaders functions
- ***/
+
+/* Shadre stock array and it size */
+kv6SHADER KV6_RndShaders[KV6_MAX_SHADERS];
+INT KV6_RndShadersSize;
+
+
 
 /* Save log to file function.
  * ARGUMENTS:
@@ -23,15 +26,15 @@
  *       CHAR *Text;
  * RETURNS: None.
  */
-VOID VG4_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text )
+VOID KV6_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text )
 {
   FILE *F;
 
-  if ((F = fopen("BIN/SHADERS/shd{30}vg4.log", "a")) == NULL)
+  if ((F = fopen("BIN/SHADERS/shd{30}kv6.log", "a")) == NULL)
     return;
   fprintf(F, "%s : %s\n%s\n\n", FileNamePrefix, ShaderName, Text);
   fclose(F);
-} /* End of 'VG4_RndLoadTextFromFile' function */
+} /* End of 'KV6_RndLoadTextFromFile' function */
 
 /* Load shader text from file function.
  * ARGUMENTS:
@@ -40,7 +43,7 @@ VOID VG4_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text )
  * RETURNS:
  *   (CHAR *) load text.
  */
-CHAR * VG4_RndLoadTextFromFile( CHAR *FileName )
+CHAR * KV6_RndLoadTextFromFile( CHAR *FileName )
 {
   FILE *F;
   INT flen;
@@ -66,7 +69,8 @@ CHAR * VG4_RndLoadTextFromFile( CHAR *FileName )
 
   fclose(F);
   return txt;
-} /* End of 'VG4_RndLoadTextFromFile' function */
+} /* End of 'KV6_RndLoadTextFromFile' function */
+
 
 /* Load shader program function.
  * ARGUMENTS:
@@ -75,7 +79,7 @@ CHAR * VG4_RndLoadTextFromFile( CHAR *FileName )
  * RETUNS:
  *   (INT) load shader program Id.
  */
-INT VG4_RndShdLoad( CHAR *FileNamePrefix )
+INT KV6_RndShdLoad( CHAR *FileNamePrefix )
 {
   struct
   {
@@ -99,10 +103,10 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
     sprintf(Buf, "BIN/SHADERS/%s/%s.GLSL", FileNamePrefix, shd[i].Name);
 
     /* Load shader text from file */
-    txt = VG4_RndLoadTextFromFile(Buf);
+    txt = KV6_RndLoadTextFromFile(Buf);
     if (txt == NULL)
     {
-      VG4_RndShdLog(FileNamePrefix, shd[i].Name, "Error load file");
+      KV6_RndShdLog(FileNamePrefix, shd[i].Name, "Error load file");
       is_ok = FALSE;
       break;
     }
@@ -110,7 +114,7 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
     /* Create shader */
     if ((shd[i].Id = glCreateShader(shd[i].Type)) == 0)
     {
-      VG4_RndShdLog(FileNamePrefix, shd[i].Name, "Error create shader");
+      KV6_RndShdLog(FileNamePrefix, shd[i].Name, "Error create shader");
       is_ok = FALSE;
       break;
     }
@@ -127,7 +131,7 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
     if (res != 1)
     {
       glGetShaderInfoLog(shd[i].Id, sizeof(Buf), &res, Buf);
-      VG4_RndShdLog(FileNamePrefix, shd[i].Name, Buf);
+      KV6_RndShdLog(FileNamePrefix, shd[i].Name, Buf);
       is_ok = FALSE;
       break;
     }
@@ -137,7 +141,7 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
   if (is_ok)
     if ((prg = glCreateProgram()) == 0)
     {
-      VG4_RndShdLog(FileNamePrefix, "PROG", "Error create program");
+      KV6_RndShdLog(FileNamePrefix, "PROG", "Error create program");
       is_ok = FALSE;
     }
     else
@@ -152,7 +156,7 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
       if (res != 1)
       {
         glGetProgramInfoLog(prg, sizeof(Buf), &res, Buf);
-        VG4_RndShdLog(FileNamePrefix, "PROG", Buf);
+        KV6_RndShdLog(FileNamePrefix, "PROG", Buf);
         is_ok = FALSE;
       }
     }
@@ -174,7 +178,8 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
     prg = 0;
   }
   return prg;
-} /* End of 'VG4_RndShdLoad' function */
+} /* End of 'KV6_RndShdLoad' function */
+
 
 /* Delete shader program function.
  * ARGUMENTS:
@@ -182,7 +187,7 @@ INT VG4_RndShdLoad( CHAR *FileNamePrefix )
  *       INT ProgId;
  * RETUNS: None.
  */
-VOID VG4_RndShdFree( INT ProgId )
+VOID KV6_RndShdFree( INT ProgId )
 {
   INT shds[5], n, i;
 
@@ -196,38 +201,33 @@ VOID VG4_RndShdFree( INT ProgId )
       glDeleteShader(shds[i]);
     }
     glDeleteProgram(ProgId);
-} /* End of 'VG4_RndShdLoad' function */
+} /* End of 'KV6_RndShdLoad' function */
 
-/***
- * Shaders stock functions
- ***/
-
-/* Shadre stock array and it size */
-vg4SHADER VG4_RndShaders[VG4_MAX_SHADERS];
-INT VG4_RndShadersSize;
 
 /* Shader stock initialization function.
  * ARGUMENTS: None.
  * RETURNS: None.
  */
-VOID VG4_RndShadersInit( VOID )
+VOID KV6_RndShadersInit( VOID )
 {
-  VG4_RndShadersSize = 0;
-  VG4_RndShaderAdd("DEFAULT");
-} /* End of 'VG4_RndShadersInit' function */
+  KV6_RndShadersSize = 0;
+  KV6_RndShaderAdd("DEFAULT");
+} /* End of 'KV6_RndShadersInit' function */
+
 
 /* Shader stock deinitialization function.
  * ARGUMENTS: None.
  * RETURNS: None.
  */
-VOID VG4_RndShadersClose( VOID )
+VOID KV6_RndShadersClose( VOID )
 {
   INT i;
 
-  for (i = 0; i < VG4_RndShadersSize; i++)
-    VG4_RndShdFree(VG4_RndShaders[i].ProgId);
-  VG4_RndShadersSize = 0;
-} /* End of 'VG4_RndShadersInit' function */
+  for (i = 0; i < KV6_RndShadersSize; i++)
+    KV6_RndShdFree(KV6_RndShaders[i].ProgId);
+  KV6_RndShadersSize = 0;
+} /* End of 'KV6_RndShadersInit' function */
+
 
 /* Shader add to stock function.
  * ARGUMENTS:
@@ -236,33 +236,35 @@ VOID VG4_RndShadersClose( VOID )
  * RETURNS:
  *   (INT) shader number in stock.
  */
-INT VG4_RndShaderAdd( CHAR *FileNamePrefix )
+INT KV6_RndShaderAdd( CHAR *FileNamePrefix )
 {
   INT i;
 
-  for (i = 0; i < VG4_RndShadersSize; i++)
-    if (strcmp(FileNamePrefix, VG4_RndShaders[i].Name) == 0)
+  for (i = 0; i < KV6_RndShadersSize; i++)
+    if (strcmp(FileNamePrefix, KV6_RndShaders[i].Name) == 0)
       return i;
-  if (VG4_RndShadersSize >= VG4_MAX_SHADERS)
+  if (KV6_RndShadersSize >= KV6_MAX_SHADERS)
     return 0;
-  strncpy(VG4_RndShaders[VG4_RndShadersSize].Name, FileNamePrefix, VG4_STR_MAX - 1);
-  VG4_RndShaders[VG4_RndShadersSize].ProgId = VG4_RndShdLoad(FileNamePrefix);
-  return VG4_RndShadersSize++;
-} /* End of 'VG4_RndShadersAdd' function */
+  strncpy(KV6_RndShaders[KV6_RndShadersSize].Name, FileNamePrefix, KV6_STR_MAX - 1);
+  KV6_RndShaders[KV6_RndShadersSize].ProgId = KV6_RndShdLoad(FileNamePrefix);
+  return KV6_RndShadersSize++;
+} /* End of 'KV6_RndShadersAdd' function */
+
 
 /* Shader stock update function.
  * ARGUMENTS: None.
  * RETURNS: None.
  */
-VOID VG4_RndShadersUpdate( VOID )
+VOID KV6_RndShadersUpdate( VOID )
 {
   INT i;
 
-  for (i = 0; i < VG4_RndShadersSize; i++)
+  for (i = 0; i < KV6_RndShadersSize; i++)
   {
-    VG4_RndShdFree(VG4_RndShaders[i].ProgId);
-    VG4_RndShaders[i].ProgId = VG4_RndShdLoad(VG4_RndShaders[i].Name);
+    KV6_RndShdFree(KV6_RndShaders[i].ProgId);
+    KV6_RndShaders[i].ProgId = KV6_RndShdLoad(KV6_RndShaders[i].Name);
   }
-} /* End of 'VG4_RndShadersUpdate' function */
+} /* End of 'KV6_RndShadersUpdate' function */
+
 
 /* END OF 'rndshd.c' FILE */

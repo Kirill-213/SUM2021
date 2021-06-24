@@ -43,8 +43,8 @@ static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
   */
 static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  Uni->Cow = MatrMulMatr(Uni->Cow, MatrRotate(Ani->DeltaTime * 500 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(2, 0, 0)));
-  Uni->Dir = VectorTransform(Uni->Dir, MatrRotate(Ani->DeltaTime * 100 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(2, 0, 0)));
+  Uni->Cow = MatrMulMatr(Uni->Cow, MatrRotate(Ani->DeltaTime * 500 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(0, 0, 1)));
+  Uni->Dir = VectorTransform(Uni->Dir, MatrRotate(Ani->DeltaTime * 100 * (Ani->Keys['A'] - Ani->Keys['D']), VecSet(0, 0, 1)));
   Uni->Pos = VecAddVec(Uni->Pos, VecMulNum(Uni->Dir, Ani->DeltaTime * 10 *(Ani->Keys['W'] - Ani->Keys['S'])));
 }/* End of 'KV6_UnitResponse' function */
 
@@ -59,6 +59,7 @@ static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
  */
 static VOID KV6_UnitRender( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
+//  KV6_RndPrimDraw(&Uni->Pr, MatrRotateY(180 * sin(Ani->Time)));
   KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr(Uni->Cow, MatrTranslate(Uni->Pos))); 
 }/* End of 'KV6_UnitRender' function */
 
@@ -96,3 +97,5 @@ kv6UNIT * KV6_UnitCreateCow( VOID )
 
   return Uni;
 }/* End of 'KV6_UnitCreateCow' function */
+
+/* END OF 'u_cow.c' FILE */
