@@ -1,6 +1,6 @@
 /* FILE NAME: rndbase.c
  * PROGRAMMER: KV6
- * DATE: 21.06.2021
+ * DATE: 25.06.2021
  * PURPOSE: 3D animation rendering function module.
  */
 
@@ -161,6 +161,7 @@ VOID KV6_RndStart( VOID )
   }
 
   /* Clear frame */
+  glClearColor( 1 / KV6_Anim.GlobalDeltaTime * 2, 1 /  KV6_Anim.GlobalDeltaTime * 1.3, 1 / KV6_Anim.GlobalDeltaTime , 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/* End of 'KV6_RndStart' function */
 

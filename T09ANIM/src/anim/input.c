@@ -1,9 +1,10 @@
 /* FILE NAME: input.c
  * PROGRAMMER: KV6
- * DATE: 21.06.2021
+ * DATE: 25.06.2021
  * PURPOSE: Integration multimedia data.
  */
 
+#include <string.h>
 #include "anim.h"
 #include <mmsystem.h>
 #pragma comment(lib, "winmm")

@@ -1,6 +1,6 @@
 /* FILE NAME: timer.c
  * PROGRAMMER: KV6
- * DATE: 21.06.2021
+ * DATE: 25.06.2021
  * PURPOSE: 3D animation project.
  *          Timer handle functions.
  */
@@ -36,6 +36,7 @@ VOID KV6_TimerResponse( VOID )
 {
 
   LARGE_INTEGER t;
+  CHAR Buf[100];
 
   QueryPerformanceCounter(&t);
   /* Global time */
@@ -58,7 +59,11 @@ VOID KV6_TimerResponse( VOID )
   {
     KV6_Anim.FPS = FrameCounter * TimePerSec / (DBL)(t.QuadPart - OldTimeFPS);
     OldTimeFPS = t.QuadPart;
+
     FrameCounter = 0;
+
+    sprintf(Buf, "FPS: %.2lf", KV6_Anim.FPS);
+    SetWindowText(KV6_Anim.hWnd, Buf);
   }
   OldTime = t.QuadPart;
 

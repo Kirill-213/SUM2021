@@ -1,6 +1,6 @@
 /* FILE NAME: def.h
  * PROGRAMMER: KV6
- * LAST UPDATE: 21.06.2021
+ * LAST UPDATE: 25.06.2021
  * PURPOSE: 3D animation common declaration module.
  */
 

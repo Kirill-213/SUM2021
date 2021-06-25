@@ -1,10 +1,9 @@
 /* FILE NAME: u_cow.c
  * PROGRAMMER: KV6
- * DATE: 21.06.2021
- * PURPOSE:
+ * DATE: 25.06.2021
+ * PURPOSE: Create cow unit
  */
 
-#include <time.h>
 #include "units.h"
 
 /* typedef kv6UNIT_COW */
@@ -17,14 +16,8 @@ typedef struct
   VEC Pos;
 } kv6UNIT_COW;
 
-/* Cow unit initialization function
- * ARGUMENTS:
- *   - self-pointer to unit object
- *      kv6UNIT_BALL *Uni;
- *   - animation context:
- *      kv6ANIM *Ani;
- * RETURNS: None.
- */
+
+/* KV6_UnitInit */
 static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
   KV6_RndPrimLoad(&Uni->Pr, "BIN/MODELS/Alfa_Romeo.obj");
@@ -33,52 +26,29 @@ static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
   Uni->Cow = MatrMulMatr(MatrScale(VecSet1(0.4)), MatrTranslate(VecSet(-0.6, -0.5, 0)));
 }/* End of 'KV6_UnitInit' function */
 
-/* Cow unit inter frame events handle function
- * ARGUMENTS:
- *   - self-pointer to unit object
- *      kv6UNIT_BALL *Uni;
- *   - animation context:
- *      kv6ANIM *Ani;
- * RETURNS: None.
- */
+
+/* KV6_UnitResponse */
 static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
 }/* End of 'KV6_UnitResponse' function */
 
 
-/* Bounce ball unit render function
- * ARGUMENTS:
- *   - self-pointer to unit object
- *      kv6UNIT_BALL *Uni;
- *   - animation context:
- *      kv6ANIM *Ani;
- * RETURNS: None.
- */
+/* KV6_UnitRender */
 static VOID KV6_UnitRender( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr(Uni->Cow, MatrTranslate(Uni->Pos))); 
+  KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr3(Uni->Cow, MatrTranslate(Uni->Pos), MatrRotateX(-90)));
+  ///KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr4(Uni->Cow, MatrRotateZ(180 * sin(Ani->Time * 0.5)), MatrRotateY(180 * sin(Ani->Time * 0.5)), MatrRotateX(180 * sin(Ani->Time * 0.5))));
 }/* End of 'KV6_UnitRender' function */
 
 
-/* Bounce ball unit render function
- * ARGUMENTS:
- *   - self-pointer to unit object
- *      kv6UNIT_BALL *Uni;
- *   - animation context:
- *      kv6ANIM *Ani;
- * RETURNS: None.
- */
+/* KV6_UnitClose */
 static VOID KV6_UnitClose( kv6UNIT_COW * Uni, kv6ANIM *Ani )
 {
   KV6_RndPrimFree(&Uni->Pr);
 }/* End of 'KV6_UnitClose' function */
 
 
-/* Unit ball creation function
- * ARGUMENTS: None.
- * RETURNS:
- *   (kv6UNIT *) pointer to created unit
- */
+/* KV6_UnitCreateCow */
 kv6UNIT * KV6_UnitCreateCow( VOID )
 {
   kv6UNIT *Uni;

@@ -1,6 +1,6 @@
 /* FILE NAME: anim.c
  * PROGRAMMER: KV6
- * DATE: 19.06.2021
+ * DATE: 25.06.2021
  * PURPOSE: 3D animation primitive handle module.
  */
 
