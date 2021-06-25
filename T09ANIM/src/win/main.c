@@ -134,6 +134,23 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
   case  WM_KEYDOWN:
     if (wParam == 27)
       KV6_AnimExit();
+    else if (wParam == 'F')
+      KV6_AnimFlipFullScreen();
+    return 0;
+
+  /* mouse wheel */
+  case WM_MOUSEWHEEL:
+    KV6_MouseWheel += (SHORT)HIWORD(wParam);
+    return 0;
+
+  /* lbuttondown */
+  case WM_LBUTTONDOWN:
+    SetCapture(hWnd);
+    return 0;
+
+  /* lbuttonup */
+  case WM_LBUTTONUP:
+    ReleaseCapture();
     return 0;
 
   /* destroy */

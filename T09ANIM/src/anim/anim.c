@@ -96,7 +96,7 @@ VOID KV6_AnimAddUnit( kv6UNIT *Uni )
     KV6_Anim.Units[KV6_Anim.NumOfUnits++] = Uni, Uni->Init(Uni, &KV6_Anim);
 }/* End of 'KV6_AnimUnitAdd' function */
 
-#if 0
+
 /* KV6_FlipFullScreen */
 VOID KV6_AnimFlipFullScreen( VOID )
 {
@@ -107,7 +107,7 @@ VOID KV6_AnimFlipFullScreen( VOID )
   {
     RECT rc;
     HMONITOR hmon;
-    HMONITORINFOEX moninfo;
+    MONITORINFOEX moninfo;
 
     /* Saving old window size */
     GetWindowRect(KV6_hRndWnd, &SaveRC);
@@ -137,6 +137,5 @@ VOID KV6_AnimFlipFullScreen( VOID )
     IsFullScreen = FALSE;
   }
 }/* End of 'KV6_AnimFlipFullScreen' function */
-#endif
 
 /* END OF 'anim.c' FILE */

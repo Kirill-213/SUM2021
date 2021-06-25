@@ -22,4 +22,3 @@ MATR
   KV6_RndMatrProj, /* Projection coordinate system matrix */
   KV6_RndMatrVP;   /* Stored (View * Proj) matrix */
 
-/* END OF 'rnddata.c' FILE */

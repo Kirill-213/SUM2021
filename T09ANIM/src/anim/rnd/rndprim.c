@@ -229,24 +229,4 @@ VOID KV6_RndPrimCreateGrid( kv6PRIM *Pr, INT Grid_W, INT Grid_H, kv6VERTEX *V )
 }/* End of 'KV6_RndPrimCreateGrid' function */
 
 
-/* KV6_RndPrimCreatePlane */
-/*
-VOID KV6_RndPrimCreatePlane( kv6VERTEX *Pr, VEC P, VEC Du, VEC Dv, INT SplitW, INT SplitH )
-{
-  INT i, j;
-  kv6VERTEX *V;
-
-  if ((V = malloc(sizeof(kv6VERTEX) * SplitW * SplitH)) == NULL)
-    return;
-  
-  for (i = 0; i < SplitW; i++)
-    for (j = 0; j < SplitH; j++)
-      V[i * SplitW + j].P = VecAddVec3(P, VecMulNum(Du, j / (SplitW - 1.0)), VecMulNum(Dv, i / SplitH - 1.0));
-
-  KV6_RndPrimCreateGrid(Pr, SplitW, SplitH, V);
-  free(V);
-}
-*/
-/* KV6_RndPrimCreatePlane */
-
 /* END OF 'rndprim.c' FILE */

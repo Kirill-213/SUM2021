@@ -5,6 +5,10 @@
  */
 
 #include "anim.h"
+#include <mmsystem.h>
+#pragma comment(lib, "winmm")
+
+INT KV6_MouseWheel;
 
 /* AnimKeyboardInit */
 static VOID KV6_AnimKeyboardInit( VOID )
@@ -37,12 +41,38 @@ static VOID KV6_AnimKeyboardResponse( VOID )
 /* AnimMouseInit */
 static VOID KV6_AnimMouseInit( VOID )
 {
+  POINT pt;
+
+  GetCursorPos(&pt);
+  ScreenToClient(KV6_Anim.hWnd, &pt);
+
+  /* screen cord */
+  KV6_Anim.Mdx = pt.x - KV6_Anim.Mx;
+  KV6_Anim.Mdy = pt.y - KV6_Anim.My;
+
+  /* absolute value */
+  KV6_Anim.Mx = pt.x;
+  KV6_Anim.My = pt.y;
+ 
+  KV6_MouseWheel = 0;
 
 }/* End of 'AnimMouseInit' function */
 
 /* AnimMouseResponse */
 static VOID KV6_AnimMouseResponse( VOID )
 {
+  POINT pt;
+
+  GetCursorPos(&pt);
+  ScreenToClient(KV6_Anim.hWnd, &pt);
+
+  /* screen cord */
+  KV6_Anim.Mdx = pt.x - KV6_Anim.Mx;
+  KV6_Anim.Mdy = pt.y - KV6_Anim.My;
+
+  /* absolute value */
+  KV6_Anim.Mx = pt.x;
+  KV6_Anim.My = pt.y;
 
 }/* End of 'AnimMouseResponse' function */
 

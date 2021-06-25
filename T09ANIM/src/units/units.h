@@ -22,6 +22,11 @@ kv6UNIT * KV6_UnitCreateCtrl( VOID );
 /* UnitCreatePlate */
 kv6UNIT * KV6_UnitCreatePlane( VOID );
 
-
+VEC 
+  KV6_RndCamLoc,
+  KV6_RndCamRight,
+  KV6_RndCamAt, 
+  KV6_RndCamDir,
+  KV6_RndCamUp;
 
 /* END OF 'units.c' FILE */

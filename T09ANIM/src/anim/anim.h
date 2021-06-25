@@ -22,6 +22,9 @@ typedef struct tagkv6ANIM kv6ANIM;
   VOID (*Response)( kv6UNIT *Uni, kv6ANIM *Ani );  \
   VOID (*Render)( kv6UNIT *Uni, kv6ANIM *Ani )
 
+/* global mouse data */
+INT KV6_MouseWheel;
+
 /* Animation context representation type */
 struct tagkv6ANIM
 {
@@ -48,6 +51,7 @@ struct tagkv6ANIM
     Keys[256],
     KeysOld[256],
     KeysClick[256];
+
 };
 
 /* struct tagUNIT */
@@ -76,6 +80,8 @@ VOID KV6_AnimResize( INT W, INT H );
 VOID KV6_AnimFlipFullScreen( VOID );
 /* AnimUnitCreate */
 kv6UNIT * KV6_AnimUnitCreate( INT Size );
+/* KV6_AnimFlipFullScreen */
+VOID KV6_AnimFlipFullScreen( VOID );
 
 
 /* KV6_AnimInputResponse */

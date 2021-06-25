@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="9,00"
 	Name="T09ANIM"
-	ProjectGUID="{AE076C99-3D93-4CDC-B1B9-4B5A0A0FA688}"
+	ProjectGUID="{F94352C6-A40C-44D4-8B32-012A2778D3E6}"
 	RootNamespace="T09ANIM"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
@@ -183,10 +183,18 @@
 				>
 			</File>
 			<Filter
-				Name="Math Support"
+				Name="Units"
 				>
 				<File
-					RelativePath=".\src\mth\mth.h"
+					RelativePath=".\src\units\u_cow.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\units\u_ctrl.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\units\units.h"
 					>
 				</File>
 			</Filter>
@@ -214,10 +222,10 @@
 					>
 				</File>
 				<Filter
-					Name="Rendering System"
+					Name="Rendering Subsystem"
 					>
 					<File
-						RelativePath=".\src\anim\glew.c"
+						RelativePath=".\src\anim\rnd\glew.c"
 						>
 					</File>
 					<File
@@ -237,12 +245,8 @@
 						>
 					</File>
 					<Filter
-						Name="Resourses"
+						Name="Resoutses"
 						>
-						<File
-							RelativePath=".\rndres.h"
-							>
-						</File>
 						<File
 							RelativePath=".\src\anim\rnd\res\rndshd.c"
 							>
@@ -251,7 +255,7 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="Window Depended"
+				Name="Windows Depended"
 				>
 				<File
 					RelativePath=".\src\win\main.c"
@@ -259,18 +263,10 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="Units"
+				Name="Math Support"
 				>
 				<File
-					RelativePath=".\src\units\u_cow.c"
-					>
-				</File>
-				<File
-					RelativePath=".\src\units\u_ctrl.c"
-					>
-				</File>
-				<File
-					RelativePath=".\src\units\units.h"
+					RelativePath=".\src\mth\mth.h"
 					>
 				</File>
 			</Filter>
