@@ -20,7 +20,7 @@ typedef struct
 /* KV6_UnitInit */
 static VOID KV6_UnitInit( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
-  KV6_RndPrimLoad(&Uni->Pr, "BIN/MODELS/Alfa_Romeo.obj");
+  KV6_RndPrimLoad(&Uni->Pr, "BIN/MODELS/med_house_final.obj");
   Uni->Pos = VecSet1(0);
   Uni->Dir = VecSet(5, 0, 0);
   Uni->Cow = MatrMulMatr(MatrScale(VecSet1(0.4)), MatrTranslate(VecSet(-0.6, -0.5, 0)));
@@ -37,7 +37,7 @@ static VOID KV6_UnitResponse( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 static VOID KV6_UnitRender( kv6UNIT_COW *Uni, kv6ANIM *Ani )
 {
   KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr3(Uni->Cow, MatrTranslate(Uni->Pos), MatrRotateX(-90)));
-  ///KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr4(Uni->Cow, MatrRotateZ(180 * sin(Ani->Time * 0.5)), MatrRotateY(180 * sin(Ani->Time * 0.5)), MatrRotateX(180 * sin(Ani->Time * 0.5))));
+  ///KV6_RndPrimDraw(&Uni->Pr, MatrMulMatr4(Uni->Cow, MatrRotateZ(180 * sin(Ani->Time * 0.5)), MatrRotateY(180 * sin(Ani->Time * 0.5)), MatrRotateX(180 * sin(Ani->Time * 0.5)))); 
 }/* End of 'KV6_UnitRender' function */
 
 

@@ -161,7 +161,7 @@ VOID KV6_RndStart( VOID )
   }
 
   /* Clear frame */
-  glClearColor( 1 / KV6_Anim.GlobalDeltaTime * 2, 1 /  KV6_Anim.GlobalDeltaTime * 1.3, 1 / KV6_Anim.GlobalDeltaTime , 1);
+  glClearColor( 0.3, 0.2, 0.6, 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/* End of 'KV6_RndStart' function */
 
