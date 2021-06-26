@@ -68,7 +68,8 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
   UpdateWindow(hWnd);
 
   /* Add UNIT */
-  KV6_AnimAddUnit(KV6_UnitCreateCow());
+  ///KV6_AnimAddUnit(KV6_UnitCreateCow());
+  KV6_AnimAddUnit(KV6_UnitCreateTexPrim());
   KV6_AnimAddUnit(KV6_UnitCreateCtrl());
 
   /* Message loop */

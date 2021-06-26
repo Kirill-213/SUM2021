@@ -1,12 +1,13 @@
-/* FILE NAME: units.c
+/* FILE NAME: units.h
  * PROGRAMMER: KV6
  * DATE: 25.06.2021
  * PURPOSE: 3D animation primitive handle module.
  */
 
+
 #include "../anim/anim.h"
 
-/* UNITS */
+
 /* KV6_Unit */
 VOID KV6_Unit( kv6UNIT *Uni, kv6ANIM *Ani );
 
@@ -22,6 +23,10 @@ kv6UNIT * KV6_UnitCreateCtrl( VOID );
 /* UnitCreatePlate */
 kv6UNIT * KV6_UnitCreatePlane( VOID );
 
+/* UnitCreateTexPrim */
+kv6UNIT * KV6_UnitCreateTexPrim( VOID );
+
+
 VEC 
   KV6_RndCamLoc,
   KV6_RndCamRight,
@@ -29,4 +34,5 @@ VEC
   KV6_RndCamDir,
   KV6_RndCamUp;
 
-/* END OF 'units.c' FILE */
+
+/* END OF 'units.h' FILE */

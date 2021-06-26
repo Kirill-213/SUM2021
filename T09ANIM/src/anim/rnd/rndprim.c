@@ -3,6 +3,7 @@
  * DATE: 25.06.2021
  * PURPOSE: 3D animation primitive handle module.
  */
+
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>

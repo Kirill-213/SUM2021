@@ -15,17 +15,7 @@ kv6SHADER KV6_RndShaders[KV6_MAX_SHADERS];
 INT KV6_RndShadersSize;
 
 
-
-/* Save log to file function.
- * ARGUMENTS:
- *   - shader prefix:
- *       CHAR *FileNamePrefix;
- *   - shader name:
- *       CHAR *ShaderName;
- *   - error text:
- *       CHAR *Text;
- * RETURNS: None.
- */
+/* RndShdLog */
 VOID KV6_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text )
 {
   FILE *F;
@@ -36,13 +26,8 @@ VOID KV6_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text )
   fclose(F);
 } /* End of 'KV6_RndLoadTextFromFile' function */
 
-/* Load shader text from file function.
- * ARGUMENTS:
- *   - text file name:
- *       CHAR *FileName;
- * RETURNS:
- *   (CHAR *) load text.
- */
+
+/* RndLoadTextFromFile */
 CHAR * KV6_RndLoadTextFromFile( CHAR *FileName )
 {
   FILE *F;
@@ -72,13 +57,7 @@ CHAR * KV6_RndLoadTextFromFile( CHAR *FileName )
 } /* End of 'KV6_RndLoadTextFromFile' function */
 
 
-/* Load shader program function.
- * ARGUMENTS:
- *   - shader folder prefix (in 'BIN/SHADERS/***'):
- *       CHAR *FileNamePrefix;
- * RETUNS:
- *   (INT) load shader program Id.
- */
+/* RndShdLoad */
 INT KV6_RndShdLoad( CHAR *FileNamePrefix )
 {
   struct
@@ -181,12 +160,7 @@ INT KV6_RndShdLoad( CHAR *FileNamePrefix )
 } /* End of 'KV6_RndShdLoad' function */
 
 
-/* Delete shader program function.
- * ARGUMENTS:
- *   - shader program Id:
- *       INT ProgId;
- * RETUNS: None.
- */
+/* RndShdFree */
 VOID KV6_RndShdFree( INT ProgId )
 {
   INT shds[5], n, i;
@@ -204,10 +178,7 @@ VOID KV6_RndShdFree( INT ProgId )
 } /* End of 'KV6_RndShdLoad' function */
 
 
-/* Shader stock initialization function.
- * ARGUMENTS: None.
- * RETURNS: None.
- */
+/* RndShadersInit */
 VOID KV6_RndShadersInit( VOID )
 {
   KV6_RndShadersSize = 0;
@@ -215,10 +186,7 @@ VOID KV6_RndShadersInit( VOID )
 } /* End of 'KV6_RndShadersInit' function */
 
 
-/* Shader stock deinitialization function.
- * ARGUMENTS: None.
- * RETURNS: None.
- */
+/* RndShadersClose */
 VOID KV6_RndShadersClose( VOID )
 {
   INT i;
@@ -229,13 +197,7 @@ VOID KV6_RndShadersClose( VOID )
 } /* End of 'KV6_RndShadersInit' function */
 
 
-/* Shader add to stock function.
- * ARGUMENTS:
- *   - shader folder prefix:
- *       CHAR *FileNamePrefix;
- * RETURNS:
- *   (INT) shader number in stock.
- */
+/* RndShaderAdd */
 INT KV6_RndShaderAdd( CHAR *FileNamePrefix )
 {
   INT i;
@@ -251,10 +213,7 @@ INT KV6_RndShaderAdd( CHAR *FileNamePrefix )
 } /* End of 'KV6_RndShadersAdd' function */
 
 
-/* Shader stock update function.
- * ARGUMENTS: None.
- * RETURNS: None.
- */
+/* RndShadersUpdate */
 VOID KV6_RndShadersUpdate( VOID )
 {
   INT i;

@@ -4,7 +4,6 @@
  * PURPOSE: 3D animation rendering function module.
  */
 
-#include "rnd.h"
 #include "../anim.h"
 
 /* KV6_RndInit */
@@ -161,7 +160,7 @@ VOID KV6_RndStart( VOID )
   }
 
   /* Clear frame */
-  glClearColor( 0.3, 0.2, 0.6, 1);
+  glClearColor(0.3, 0.2, 0.6, 0.9);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }/* End of 'KV6_RndStart' function */
 

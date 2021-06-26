@@ -96,7 +96,6 @@ VOID KV6_TimerInit( VOID );
 VOID KV6_TimerResponse( VOID );
 
 
-
 #endif /* __anim_h_ */
 
 /* END OF 'anim.h' FILE */
