@@ -36,7 +36,7 @@ VOID KV6_TimerResponse( VOID )
 {
 
   LARGE_INTEGER t;
-  CHAR Buf[100];
+  ///CHAR Buf[100];
 
   QueryPerformanceCounter(&t);
   /* Global time */
@@ -62,8 +62,8 @@ VOID KV6_TimerResponse( VOID )
 
     FrameCounter = 0;
 
-    sprintf(Buf, "FPS: %.2lf", KV6_Anim.FPS);
-    SetWindowText(KV6_Anim.hWnd, Buf);
+    /*sprintf(Buf, "FPS: %.2lf", KV6_Anim.FPS);   
+    SetWindowText(KV6_Anim.hWnd, Buf);           */
   }
   OldTime = t.QuadPart;
 

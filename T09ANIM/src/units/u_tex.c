@@ -114,7 +114,7 @@ kv6UNIT * KV6_UnitCreateTexPrim( VOID )
 {
   kv6UNIT *Uni;
 
-  if ((Uni = KV6_AnimUnitCreate(sizeof(kv6UNIT_TEXPRIM))) == NULL)
+  if ((Uni = (kv6UNIT *)KV6_AnimUnitCreate(sizeof(kv6UNIT_TEXPRIM))) == NULL)
     return NULL;
   
   /* Setup unit methods */

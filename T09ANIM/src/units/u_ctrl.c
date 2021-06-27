@@ -13,7 +13,7 @@ typedef struct tagkv6UNIT_ctrl
 {
   UNIT_BASE_FIELDS;
   DBL AngleSpeed;
-  VEC CamLoc, CamDir, CamDist;
+  VEC CamLoc;
   VEC At;
   VEC Dir;
   VEC Right;
@@ -54,7 +54,6 @@ static VOID KV6_UnitResponse( kv6UNIT_ctrl *Uni, kv6ANIM *Ani )
 {
 
   /* wasd */
-
   if (Ani->Keys['S'] || Ani->Keys['W'])
   {
     Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Dir, Ani->GlobalDeltaTime * Uni->Speed * (Ani->Keys['W'] - Ani->Keys['S'])));
@@ -64,19 +63,17 @@ static VOID KV6_UnitResponse( kv6UNIT_ctrl *Uni, kv6ANIM *Ani )
     Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Right, Ani->GlobalDeltaTime * Uni->Speed * (Ani->Keys['D'] - Ani->Keys['A'])));
 
   /* mouse */
-
   if (Ani->Mdz)
-    Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Dir, Ani->GlobalDeltaTime * Uni->Speed * Ani->Mdz * 0.03));
+    Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Dir, Ani->GlobalDeltaTime * Uni->Speed * Ani->Mdz * 0.5));
 
   if (Ani->Keys[VK_LBUTTON])
-    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotateY(-Ani->Keys[VK_LBUTTON] * Ani->GlobalDeltaTime * Uni->AngleSpeed * Ani->Mdx * 30));
+    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotateY(-Ani->Keys[VK_LBUTTON] * Ani->GlobalDeltaTime * Uni->AngleSpeed * Ani->Mdx * 10));
 
   if (Ani->Keys[VK_RBUTTON])
-    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotateX(-Ani->Keys[VK_RBUTTON] * Ani->GlobalDeltaTime * Uni->AngleSpeed * Ani->Mdy * 30));
+    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotateX(-Ani->Keys[VK_RBUTTON] * Ani->GlobalDeltaTime * Uni->AngleSpeed * Ani->Mdy * 10));
 
 
   /* arrows */
-
   if (Ani->Keys[VK_DOWN] || Ani->Keys[VK_UP])
   {
     Uni->CamLoc.Y += Ani->GlobalDeltaTime * Uni->Speed * (Ani->Keys[VK_UP] - Ani->Keys[VK_DOWN]);
@@ -84,8 +81,8 @@ static VOID KV6_UnitResponse( kv6UNIT_ctrl *Uni, kv6ANIM *Ani )
   }
   if (Ani->Keys[VK_RIGHT] || Ani->Keys[VK_LEFT])
   {
-    Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Right, (Ani->Keys[VK_RIGHT] - Ani->Keys[VK_LEFT]) * 10 * Ani->GlobalDeltaTime));
-    Uni->At = VecAddVec(Uni->At, VecMulNum(Uni->Right, (Ani->Keys[VK_RIGHT] - Ani->Keys[VK_LEFT]) * 10 * Ani->GlobalDeltaTime));
+    Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(Uni->Right, (Ani->Keys[VK_RIGHT] - Ani->Keys[VK_LEFT]) * 100 * Ani->GlobalDeltaTime));
+    Uni->At = VecAddVec(Uni->At, VecMulNum(Uni->Right, (Ani->Keys[VK_RIGHT] - Ani->Keys[VK_LEFT]) * 100 * Ani->GlobalDeltaTime));
   }
 
   Uni->Dir = VecNormalize(VecSubVec(Uni->At, Uni->CamLoc));
@@ -117,7 +114,7 @@ kv6UNIT * KV6_UnitCreateCtrl( VOID )
 {
   kv6UNIT *Uni;
 
-  if ((Uni = KV6_AnimUnitCreate(sizeof(kv6UNIT_ctrl))) == NULL)
+  if ((Uni = (kv6UNIT *)KV6_AnimUnitCreate(sizeof(kv6UNIT_ctrl))) == NULL)
     return NULL;
   
   /* Setup unit methods */

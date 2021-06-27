@@ -55,9 +55,9 @@ VOID KV6_AnimResize( INT W, INT H )
 
 
 /* KV6_AnimCopyFrame */
-VOID KV6_AnimCopyFrame( HDC hDC )
+VOID KV6_AnimCopyFrame( VOID )
 {
-  KV6_RndCopyFrame(hDC);
+  KV6_RndCopyFrame();
 }/* End of 'KV6_AnimCopyFrame' function */
 
 

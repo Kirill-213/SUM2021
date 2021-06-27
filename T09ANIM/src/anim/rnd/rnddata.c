@@ -12,6 +12,13 @@ HGLRC KV6_hRndGLRC;               /* Open GL render devic context */
 HDC KV6_hRndDC;                   /* Work window memory device context  */
 INT KV6_RndFrameW, KV6_RndFrameH; /* Work window size */
 
+VEC 
+  KV6_RndCamLoc,
+  KV6_RndCamRight,
+  KV6_RndCamAt,
+  KV6_RndCamDir,
+  KV6_RndCamUp;
+
 DBL
   KV6_RndProjSize = 0.1,  /* Project plane fit square */
   KV6_RndProjDist = 0.1,  /* Distance to project plane from viewer (near) */

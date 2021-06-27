@@ -12,23 +12,24 @@
 
 #define KV6_MAX_UNITS 3000
 
-/* typedef */
-typedef struct tagkv6UNIT kv6UNIT;
-typedef struct tagkv6ANIM kv6ANIM;
 
 #define UNIT_BASE_FIELDS \
-  VOID (*Init)( kv6UNIT *Uni, kv6ANIM *Ani );      \
-  VOID (*Close)( kv6UNIT *Uni, kv6ANIM *Ani );     \
-  VOID (*Response)( kv6UNIT *Uni, kv6ANIM *Ani );  \
+  VOID (*Init)( kv6UNIT *Uni, kv6ANIM *Ani );    \
+  VOID (*Close)( kv6UNIT *Uni, kv6ANIM *Ani );   \
+  VOID (*Response)( kv6UNIT *Uni, kv6ANIM *Ani );\
   VOID (*Render)( kv6UNIT *Uni, kv6ANIM *Ani )
 
+/* typedef */
+typedef struct tagkv6UNIT kv6UNIT;
+
 /* global mouse data */
-INT KV6_MouseWheel;
+extern INT KV6_MouseWheel;
 
 /* Animation context representation type */
-struct tagkv6ANIM
+typedef struct tagkv6ANIM
 {
   HWND hWnd;
+  HDC hDC;
   INT W, H;
 
   kv6UNIT *Units[KV6_MAX_UNITS];
@@ -51,8 +52,8 @@ struct tagkv6ANIM
     Keys[256],
     KeysOld[256],
     KeysClick[256];
+} kv6ANIM;
 
-};
 
 /* struct tagUNIT */
 struct tagkv6UNIT
@@ -73,23 +74,20 @@ VOID KV6_AnimRender( VOID );
 /* AnimunitAdd */
 VOID KV6_AnimAddUnit( kv6UNIT *Uni );
 /* AnimCopyFrame */
-VOID KV6_AnimCopyFrame( HDC hDC );
+VOID KV6_AnimCopyFrame( VOID );
 /* AnimResize */
 VOID KV6_AnimResize( INT W, INT H );
 /* FlipFullScreen */
 VOID KV6_AnimFlipFullScreen( VOID );
+
 /* AnimUnitCreate */
 kv6UNIT * KV6_AnimUnitCreate( INT Size );
-/* KV6_AnimFlipFullScreen */
-VOID KV6_AnimFlipFullScreen( VOID );
 
 
 /* KV6_AnimInputResponse */
 VOID KV6_AnimInputResponse( VOID );
 /* KV6_AnimInputInit */
 VOID KV6_AnimInputInit( VOID );
-
-
 /* TimerInit */
 VOID KV6_TimerInit( VOID );
 /* TimerResponse */

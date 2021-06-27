@@ -53,7 +53,7 @@ kv6UNIT * KV6_UnitCreateCow( VOID )
 {
   kv6UNIT *Uni;
 
-  if ((Uni = KV6_AnimUnitCreate(sizeof(kv6UNIT_COW))) == NULL)
+  if ((Uni = (kv6UNIT *)KV6_AnimUnitCreate(sizeof(kv6UNIT_COW))) == NULL)
     return NULL;
   
   /* Setup unit methods */

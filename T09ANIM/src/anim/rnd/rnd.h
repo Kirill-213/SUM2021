@@ -12,7 +12,7 @@
 
 
 #include "res/rndres.h"
-#include "../../def.h"
+
 
 #include <wglew.h>
 #include <gl/wglext.h>
@@ -29,7 +29,6 @@ typedef struct tagkv6VERTEX
   VEC2 T;  /* texture cord */
   VEC N;   /* normal */
   VEC4 C;  /* color(r, g, b, a) */
-
 } kv6VERTEX;
 
 /* Primitive type */
@@ -41,26 +40,26 @@ typedef enum tagkv6PRIM_TYPE
   KV6_RND_PRIM_POINTS,   /* Array of points */
 } kv6PRIM_TYPE;
 
-/* primitive representation type */
+/* Primitive representation type */
 typedef struct tagkv6PRIM
 {
   kv6VERTEX *V;
+  kv6PRIM_TYPE Type; /* Primitive type */
+  INT
+    VA,              /* Vertex array Id */
+    VBuf,            /* Vertex buffer Id */
+    IBuf;            /* Index buffer Id (if 0 - use only vertex buffer) */
+  INT NumOfElements; /* Number of indices/vecrtices */
 
-  INT VA;
-  INT VBuf;
-  INT IBuf;
+  INT MtlNo; /* Material number in material array */
 
-  INT NumOfElements;
-
-  INT MtlNo;
-
-  MATR Trans; /* Additional transformation matrix */
+  MATR Trans;   /* Additional transformation matrix */
 } kv6PRIM;
 
 /* Primitive collection data type */
 typedef struct tagkv6PRIMS
 {
-  INT NumOfPrims; /* Number of primitives in array */  
+  INT NumOfPrims; /* Number of primitives in array */
   kv6PRIM *Prims; /* Array of primitives */
   MATR Trans;     /* Common transformation matrix */
 } kv6PRIMS;
@@ -81,49 +80,60 @@ extern MATR
   KV6_RndMatrProj, /* Projection coordinate system matrix */
   KV6_RndMatrVP;   /* Stored (View * Proj) matrix */
 
+extern VEC 
+  KV6_RndCamLoc,
+  KV6_RndCamRight,
+  KV6_RndCamAt,
+  KV6_RndCamDir,
+  KV6_RndCamUp;
+
+
 /* Render base functions */
 VOID KV6_RndInit( HWND hWnd );
 VOID KV6_RndClose( VOID );
-VOID KV6_RndCopyFrame( HDC hDC );
+VOID KV6_RndCopyFrame( VOID );
 VOID KV6_RndProjSet( VOID );
 VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up );
 
-/* Render primitive functions */
-VOID KV6_RndPrimFree( kv6PRIM *Pr );
-VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World );
-//BOOL KV6_RndPrimCreate( kv6PRIM *Pr, INT NoofV, INT NoofI );
-VOID KV6_RndPrimCreate( kv6PRIM *Pr, kv6VERTEX *V, INT NumOfV, INT *I, INT NumOfI );
 
-/* Load Primitive from ile */
+/* RndPrimFree */
+VOID KV6_RndPrimFree( kv6PRIM *Pr );
+/* RndPrimDraw */
+VOID KV6_RndPrimDraw( kv6PRIM *Pr, MATR World );
+/* RndPrimCreate */
+VOID KV6_RndPrimCreate( kv6PRIM *Pr, kv6PRIM_TYPE Type, kv6VERTEX *V, INT NumOfV, INT *I, INT NumOfI );
+
+/* RndPrimLoad */
 BOOL KV6_RndPrimLoad( kv6PRIM *Pr, CHAR *FileName );
 
-/* Render start / end */
+
+/* RndStart */
 VOID KV6_RndStart( VOID );
+/* RndEnd */
 VOID KV6_RndEnd( VOID );
-/* KV6_RndResize */
+/* RndResize */
 VOID KV6_RndResize( INT W, INT H );
-/* KV6_RndPrimCreateGrid */
+/* RndPrimCreateGrid */
 VOID KV6_RndPrimCreateGrid( kv6PRIM *Pr, INT Grid_W, INT Grid_H, kv6VERTEX *V );
-/* KV6_RndPrimCreatePlane */
+/* RndPrimCreatePlane */
 VOID KV6_RndPrimCreatePlane( kv6VERTEX *Pr, VEC P, VEC Du, VEC Dv, INT SplitW, INT SplitH );
 
 
-
-/* KV6_RndShadersInit */
+/* RndShadersInit */
 VOID KV6_RndShadersInit( VOID );
-/* KV6_RndShadersClose */
+/* RndShadersClose */
 VOID KV6_RndShadersClose( VOID );
-/* KV6_RndShadersUpdate */
+/* RndShadersUpdate */
 VOID KV6_RndShadersUpdate( VOID );
-/* KV6_RndShdFree */
+/* RndShdFree */
 VOID KV6_RndShdFree( INT ProgId );
-/* KV6_RndShdLoad */
+/* RndShdLoad */
 INT KV6_RndShdLoad( CHAR *FileNamePrefix );
-/* KV6_RndShaderAdd */
+/* RndShaderAdd */
 INT KV6_RndShaderAdd( CHAR *FileNamePrefix );
-/* KV6_RndLoadTextFromFile */
+/* RndLoadTextFromFile */
 CHAR * KV6_RndLoadTextFromFile( CHAR *FileName );
-/* KV6_RndShdLog */
+/* RndShdLog */
 VOID KV6_RndShdLog( CHAR *FileNamePrefix, CHAR *ShaderName, CHAR *Text );
 
 /* RndPrimsCreate */

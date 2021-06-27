@@ -1,6 +1,6 @@
 /* FILE NAME: main.c
  * PROGRAMMER: KV6
- * DATE: 25.06.2021
+ * DATE: 27.06.2021
  * PURPOSE: 3D animation startup module.
  */
 
@@ -68,8 +68,9 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
   UpdateWindow(hWnd);
 
   /* Add UNIT */
-  ///KV6_AnimAddUnit(KV6_UnitCreateCow());
-  KV6_AnimAddUnit(KV6_UnitCreateTexPrim());
+///  KV6_AnimAddUnit(KV6_UnitCreateCow());
+///  KV6_AnimAddUnit(KV6_UnitCreateTexPrim());
+  KV6_AnimAddUnit(KV6_UnitCreateGear());
   KV6_AnimAddUnit(KV6_UnitCreateCtrl());
 
   /* Message loop */
@@ -102,10 +103,15 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
 LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam )
 {
   PAINTSTRUCT ps;
-  HDC hDC;
 
   switch (Msg)
   {
+  /* getminmaxinfo */
+  case WM_GETMINMAXINFO:
+    ((MINMAXINFO *)lParam)->ptMaxTrackSize.y =
+      GetSystemMetrics(SM_CYMAXTRACK) + GetSystemMetrics(SM_CYCAPTION) + 2 * GetSystemMetrics(SM_CYBORDER);
+    return 0;
+
   /* create */
   case WM_CREATE:
     KV6_AnimInit(hWnd);
@@ -121,13 +127,13 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
   /* timer */
   case WM_TIMER:
     KV6_AnimRender();
-    KV6_AnimCopyFrame(NULL);
+    KV6_AnimCopyFrame();
     return 0;
 
   /* paint */
   case WM_PAINT:
-    hDC = BeginPaint(hWnd, &ps);
-    KV6_AnimCopyFrame(hDC);
+    BeginPaint(hWnd, &ps);
+    KV6_AnimCopyFrame();
     EndPaint(hWnd, &ps);
     return 0;
   
@@ -138,6 +144,12 @@ LRESULT CALLBACK KV6_WinFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam 
     else if (wParam == 'F')
       KV6_AnimFlipFullScreen();
     return 0;
+
+  /* close */
+  case WM_CLOSE:
+    if (MessageBox(hWnd, " Exit ?", "Exit", MB_YESNO | MB_ICONQUESTION) == IDYES)
+      break;
+    return 0;     
 
   /* mouse wheel */
   case WM_MOUSEWHEEL:

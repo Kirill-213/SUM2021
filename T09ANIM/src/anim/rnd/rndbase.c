@@ -1,20 +1,23 @@
-/* FILE NAME: rndbase.c
- * PROGRAMMER: KV6
- * DATE: 25.06.2021
- * PURPOSE: 3D animation rendering function module.
+/* FILE NAME : rndbase.c
+ * PROGRAMMER: kv6
+ * DATE      : 21.06.2021 
+ * PURPOSE   : WinAPI Animation startup module
  */
-
 #include "../anim.h"
 
-/* KV6_RndInit */
+
+/* Render initialization function.
+ * ARGUMENTS:
+ *   - Working window:
+ *       HWND hWnd;
+ * RETURNS:
+ *   (VOID) None.
+*/
 VOID KV6_RndInit( HWND hWnd )
 {
- 
-  /* OPEN GL PARAMETRS */
   INT i, nums;
   PIXELFORMATDESCRIPTOR pfd = {0};
   HGLRC hRC;
-  
   INT PixelAttribs[] =
   {
     WGL_DRAW_TO_WINDOW_ARB, TRUE,
@@ -66,7 +69,6 @@ VOID KV6_RndInit( HWND hWnd )
     exit(0);
   }
 
-
   /* Enable a new OpenGL profile support */
   wglChoosePixelFormatARB(KV6_hRndDC, PixelAttribs, NULL, 1, &i, &nums);
   hRC = wglCreateContextAttribsARB(KV6_hRndDC, NULL, ContextAttribs);
@@ -76,49 +78,47 @@ VOID KV6_RndInit( HWND hWnd )
 
   KV6_hRndGLRC = hRC;
   wglMakeCurrent(KV6_hRndDC, KV6_hRndGLRC);
+
   /* Set default OpenGL parameters */
   glEnable(GL_DEPTH_TEST);
+  wglSwapIntervalEXT(0);
 
-  wglSwapIntervalEXT(0); /* 0 - V-sync off, 1 - V-sync on */
-
-  /* RndShadersInit */
   KV6_RndShadersInit();
+  KV6_RndTexturesInit();
+  KV6_RndMtlInit();
 
-  KV6_hRndWnd = hWnd;
 
-
-  /* Render perametrs */
   KV6_RndProjSize = 0.1;
   KV6_RndProjDist = KV6_RndProjSize;
-  
   KV6_RndProjFarClip = 300;
+  KV6_RndFrameH = 300;
+  KV6_RndFrameW = 300;
 
-  KV6_RndFrameW = 100;
-  KV6_RndFrameH = 100;
-  KV6_RndMatrView = MatrIdentity();
-  KV6_RndMatrVP = MatrIdentity();
-  KV6_RndMatrProj = MatrIdentity();
-  KV6_RndCamSet(VecSet(0, 30, 30), VecSet(0, 0, 0), VecSet(0, 1, 0));
-  KV6_RndCamSet(VecSet(0, 0, 30), VecSet(0, 0, 0), VecSet(0, 1, 0));
+  KV6_RndCamSet(VecSet(0, 3, 5), VecSet1(0), VecSet(0, 1, 0));
+} /* End of 'KV6_RndInit' function */
 
-}/* End of 'KV6_RndInit' function */
-
-
-/* KV6_RndClose */
+/* Render closing function.
+ * ARGUMENTS:
+ *   (VOID) None.
+ * RETURNS:
+ *   (VOID) None.
+*/
 VOID KV6_RndClose( VOID )
 {
+  KV6_RndShadersClose();
+  KV6_RndTexturesClose();
+  KV6_RndMtlClose();
   wglMakeCurrent(NULL, NULL);
   wglDeleteContext(KV6_hRndGLRC);
   ReleaseDC(KV6_hRndWnd, KV6_hRndDC);
-}/* End of 'KV6_RndClose' function */
+} /* End of 'KV6_RndClose' function */
 
-/* KV6_RndCopyFrame */
-VOID KV6_RndCopyFrame( HDC hDC )
-{
-  wglSwapLayerBuffers(KV6_hRndDC, WGL_SWAP_MAIN_PLANE);
-}/* End of 'KV6_RndCopyFrame' function */
-
-/* KV6_RndProjSet */
+/* Render projection setting function.
+ * ARGUMENTS:
+ *   (VOID) None.
+ * RETURNS:
+ *   (VOID) None.
+*/
 VOID KV6_RndProjSet( VOID )
 {
   DBL rx, ry;
@@ -135,53 +135,88 @@ VOID KV6_RndProjSet( VOID )
     MatrFrustum(-rx / 2, rx / 2, -ry / 2, ry / 2,
       KV6_RndProjDist, KV6_RndProjFarClip);
   KV6_RndMatrVP = MatrMulMatr(KV6_RndMatrView, KV6_RndMatrProj);
-}/* KV6_RndProjSet */
+} /* End of 'KV6_RndProjSet' function */
 
-
-/* KV6_RndCamset */
+/* Render camera setting function.
+ * ARGUMENTS:
+ *   - Location pos:
+ *       VEC Loc;
+ *   - Looking at pos:
+ *       VEC At;
+ *   - Up vec:
+ *       VEC Up;
+ * RETURNS:
+ *   (VOID) None.
+*/
 VOID KV6_RndCamSet( VEC Loc, VEC At, VEC Up )
 {
+  KV6_RndCamLoc = Loc;
   KV6_RndMatrView = MatrView(Loc, At, Up);
   KV6_RndMatrVP = MatrMulMatr(KV6_RndMatrView, KV6_RndMatrProj);
-}/* End of 'KV6_RndCamSet' function */
+} /* End of 'KV6_RndCamSet' function */
 
-
-/* KV6_RndStart */
-VOID KV6_RndStart( VOID )
-{
-
-  static DBL load = 0;
-
-  if ((load += KV6_Anim.GlobalDeltaTime) > 1)
-  {
-    load = 0;
-    /* RndShadersUpdate */
-    KV6_RndShadersUpdate();
-  }
-
-  /* Clear frame */
-  glClearColor(0.3, 0.2, 0.6, 0.9);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}/* End of 'KV6_RndStart' function */
-
-
-/* KV6_RndEnd */
-VOID KV6_RndEnd( VOID )
-{
-  glFinish();
-}/* End of 'KV6_RndEnd' function */
-
-
-/* KV6_RndResize */
+/* Render resizing function.
+ * ARGUMENTS:
+ *   - Window size:
+ *       INT W, H;
+ * RETURNS:
+ *   (VOID) None.
+*/
 VOID KV6_RndResize( INT W, INT H )
 {
   glViewport(0, 0, W, H);
 
+  /* Saving size */
   KV6_RndFrameW = W;
   KV6_RndFrameH = H;
 
+  /* Projection recounting */
   KV6_RndProjSet();
-}/* End of 'KV6_RndResize' function */
+} /* End of 'KV6_RndResize' function */
+
+/* Render frame copying function.
+ * ARGUMENTS:
+ *   - Device context:
+ *       HDC hDC;
+ * RETURNS:
+ *   (VOID) None.
+*/
+VOID KV6_RndCopyFrame( VOID )
+{
+  SwapBuffers(KV6_hRndDC);
+} /* End of 'KV6_RndCopyFrame' function */
+
+/* Render starting function.
+ * ARGUMENTS:
+ *   (VOID) None.
+ * RETURNS:
+ *   (VOID) None.
+*/
+VOID KV6_RndStart( VOID )
+{
+  static DBL dt;
+  
+  dt += KV6_Anim.GlobalDeltaTime;
+  if (dt > 2)
+  {
+    dt = 0;
+    KV6_RndShadersUpdate();
+  }
+
+  glClearColor(0.2, 0.8, 0.2, 1);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+} /* End of 'KV6_RndStart' function */
+
+/* Render closing function.
+ * ARGUMENTS:
+ *   (VOID) None.
+ * RETURNS:
+ *   (VOID) None.
+*/
+VOID KV6_RndEnd( VOID )
+{
+  glFinish();
+} /* End of 'KV6_RndStart' function */
 
 
 /* END OF 'rndbase.c' FILE */
